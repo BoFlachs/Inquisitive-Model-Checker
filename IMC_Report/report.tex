@@ -1,0 +1,34 @@
+\documentclass[12pt,a4paper]{article}
+\input{latexmacros.tex}
+
+\title{My Report}
+\author{Bo Flachs \& Wessel Kroon}
+\date{\today}
+\hypersetup{pdfauthor={Me}, pdftitle={My Report}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\vfill
+
+\tableofcontents
+
+\clearpage
+
+\input{Howto.tex}
+
+\input{lib/Basics.lhs}
+
+\input{exec/Main.lhs}
+
+\input{Conclusion.tex}
+
+\addcontentsline{toc}{section}{Bibliography}
+\bibliographystyle{alpha}
+\bibliography{references.bib}
+
+\end{document}
