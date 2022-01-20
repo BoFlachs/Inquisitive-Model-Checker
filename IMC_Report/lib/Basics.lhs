@@ -1,5 +1,5 @@
 
-\section{Tweede sectie}\label{sec:Twee}
+\section{Tweede sectie}\label{sec:Tweede}
 
 This section describes a module which we will import later on.
 
