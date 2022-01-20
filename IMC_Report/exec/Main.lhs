@@ -11,7 +11,7 @@ import Basics
 
 main :: IO ()
 main = do
-  putStrLn "Hello, world!"
+  putStrLn "Hello, world"
   print somenumbers
   print (map funnyfunction somenumbers)
   myrandomnumbers <- randomnumbers
