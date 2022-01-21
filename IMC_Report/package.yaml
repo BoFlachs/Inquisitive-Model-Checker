@@ -10,6 +10,7 @@ ghc-options: -Wall
 dependencies:
   - base >= 4.14 && < 5
   - random
+  - QuickCheck
 
 library:
   source-dirs: lib
@@ -20,3 +21,12 @@ executables:
     source-dirs: exec
     dependencies:
       - imc
+
+tests:
+  simpletests:
+    main: simpletests.lhs
+    source-dirs: test
+    dependencies:
+      - report
+      - QuickCheck
+      - hspec

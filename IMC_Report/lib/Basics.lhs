@@ -1,10 +1,9 @@
 
-\section{Tweede sectie}\label{sec:Tweede}
+\section{Placeholder}\label{sec:Placeholder2}
 
-This section describes a module which we will import later on.
 
 \begin{code}
-module Basics where
+module InqB where
 
 import Control.Monad
 import System.Random
@@ -23,4 +22,3 @@ myreverse [] = []
 myreverse (x:xs) = myreverse xs ++ [x]
 \end{code}
 
-That's it, for now.
