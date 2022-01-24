@@ -42,10 +42,10 @@ data Form = UnR Individual
 
 -- Functions working on formulas and propositions
 nonInq :: Form -> Form
-nonInq = undefined
+nonInq f = Neg $ Neg f
 
 nonInf :: Form -> Form
-nonInf = undefined
+nonInf f = Dis f $ Neg f
 
 toProp :: Form -> Prop
 toProp = undefined
@@ -60,7 +60,7 @@ alt :: Form -> [InfState]
 alt = undefined
 
 info :: Form -> InfState
-info = undefined
+info f = nub $ concat $ toProp f
 
 
 \end{code}
