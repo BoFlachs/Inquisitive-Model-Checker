@@ -6,8 +6,7 @@ In this section we use QuickCheck to test some theorems from los bookos.
 \begin{code}
 module Main where
 
-import Basics
-
+import InqB
 import Test.QuickCheck
 
 
