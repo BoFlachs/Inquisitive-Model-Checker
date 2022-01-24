@@ -5,8 +5,6 @@ In this section we discuss the implementation of InqB in Haskell.
 \begin{code}
 module InqB where
 
-import Data.List
-
 -- Type declarations of the models
 type World        = Int 
 type Universe     = [World]
@@ -32,9 +30,9 @@ type Vars = [Var]
 -}
 
 -- Type declarations for formulas
-data Form = UnR Individual 
-          | BinR Individual Individual 
-          | TertR Individual Individual Individual
+data Form = UnR UnRelation Individual 
+          | BinR BiRelation Individual Individual 
+          | TertR TertRelation Individual Individual Individual
           | Neg Form | Con Form Form | Dis Form Form
           | Impl Form Form 
 --        | Forall Var Form | Exists Var Form

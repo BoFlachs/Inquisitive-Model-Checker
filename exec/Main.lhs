@@ -8,6 +8,8 @@ module Main where
 
 import InqB
 
+main :: IO()
+main = do putStrLn "Hello!"
 
 \end{code}
 
