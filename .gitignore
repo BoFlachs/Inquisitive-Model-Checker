@@ -25,3 +25,7 @@ stack.yaml.lock
 report.cabal
 
 IMC_Report/imc.cabal
+report.log
+report.out
+report.pdf
+report.toc

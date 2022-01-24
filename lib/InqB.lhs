@@ -1,24 +1,13 @@
 
-\section{Placeholder}\label{sec:Placeholder2}
-
+\section{InqB in Haskell}\label{sec:Placeholder2}
+In this section we discuss the implementation of InqB in Haskell.
 
 \begin{code}
 module InqB where
 
-import Control.Monad
-import System.Random
+import Data.List
 
-thenumbers :: [Integer]
-thenumbers = [1..]
 
-somenumbers :: [Integer]
-somenumbers = take 10 thenumbers
 
-randomnumbers :: IO [Integer]
-randomnumbers = replicateM 10 $ randomRIO (0,10)
-
-myreverse :: [a] -> [a]
-myreverse [] = []
-myreverse (x:xs) = myreverse xs ++ [x]
 \end{code}
 

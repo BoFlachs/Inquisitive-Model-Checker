@@ -1,7 +1,7 @@
 
-\section{Placeholder}
+\section{Model Checker}
 \label{sec: Placeholder}
-
+In this section we discuss the model checker
 
 \begin{code}
 module Main where
@@ -9,5 +9,5 @@ module Main where
 import InqB
 
 
-\end{showCode}
+\end{code}
 
