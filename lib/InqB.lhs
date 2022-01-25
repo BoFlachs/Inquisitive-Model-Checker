@@ -106,4 +106,11 @@ alt m f = [x | x <- p, not (any (strictSubset x) p)]
 info :: Model -> Form -> InfState
 info m f = nub . concat $ toProp m f
 
+-- Functions that should be moved to Main.lhs
+makesPropTrue :: InfState -> Prop -> Bool
+makesPropTrue i p = i `elem` p 
+
+makesFormTrue :: Model -> InfState -> Form -> Bool
+makesFormTrue m i f = i `elem` toProp m f
+
 \end{code}
