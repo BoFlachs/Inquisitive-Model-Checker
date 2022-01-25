@@ -64,17 +64,19 @@ powerset []  = [[]]
 powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
 
 nonInq :: Form -> Form
-nonInq = undefined
+nonInq f = Neg $ Neg f
 
 nonInf :: Form -> Form
-nonInf = undefined
+nonInf f = Dis f $ Neg f
 
--- Functions working on models, formulas and propositions
-toProp :: Form -> Prop
+toProp :: Model -> Form -> Prop
 toProp = undefined
 
-absPseudComp :: Prop -> Prop
-absPseudComp = undefined
+absPseudComp :: Model -> Prop -> Prop
+absPseudComp m p = powerset $ universe m \\ (nub . concat) p
+
+relPseudComp :: Model -> Prop -> Prop -> Prop
+relPseudComp =  undefined  
 
 closeDownward :: [[World]] -> Prop
 closeDownward = nub . concat . map powerset 
@@ -91,11 +93,16 @@ relPseudComp m p q = filter (\s ->
                               $ powerset s ) 
                                   $ powerset $ universe m
 
-alt :: Form -> [InfState]
-alt = undefined
+strictSubset :: InfState -> InfState -> Bool
+strictSubset x y | x \\ y == [] = True
+                 | otherwise = False
 
-info :: Form -> InfState
-info = undefined
+alt :: Model -> Form -> [InfState]
+alt m f = [x | x <- p, all (\y -> (not (strictSubset x y))) p] where
+          p = toProp m f
+
+info :: Model -> Form -> InfState
+info m f = nub $ concat $ toProp m f
 
 
 \end{code}
