@@ -53,8 +53,8 @@ toProp = undefined
 absPseudComp :: Prop -> Prop
 absPseudComp = undefined
 
-relPseudComp :: Prop -> Prop
-relPseudComp = undefined
+relPseudComp :: Prop -> Prop -> Prop
+relPseudComp =  undefined  
 
 alt :: Form -> [InfState]
 alt = undefined
