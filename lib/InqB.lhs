@@ -109,4 +109,11 @@ info m f = nub . concat $ toProp m f
 func :: Int -> Int
 func n = (*5) n
 
+-- More functions by Mr.Crown
+makesPropTrue :: InfState -> Prop -> Bool
+makesPropTrue i p = i `elem` p 
+
+makesFormTrue :: Model -> InfState -> Form -> Bool
+makesFormTrue m i f = i `elem` (toProp m f)
+
 \end{code}
