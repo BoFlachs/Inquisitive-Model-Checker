@@ -41,26 +41,35 @@ data Form = UnR Individual
           deriving (Eq, Ord, Show)
 
 -- Functions working on formulas and propositions
+powerset :: [a] -> [[a]]
+powerset []  = [[]]
+powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
+
 nonInq :: Form -> Form
 nonInq f = Neg $ Neg f
 
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
 
-toProp :: Form -> Prop
+toProp :: Model -> Form -> Prop
 toProp = undefined
 
-absPseudComp :: Prop -> Prop
-absPseudComp = undefined
+absPseudComp :: Model -> Prop -> Prop
+absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
-relPseudComp :: Prop -> Prop -> Prop
+relPseudComp :: Model -> Prop -> Prop -> Prop
 relPseudComp =  undefined  
 
-alt :: Form -> [InfState]
-alt = undefined
+strictSubset :: InfState -> InfState -> Bool
+strictSubset x y | x \\ y == [] = True
+                 | otherwise = False
 
-info :: Form -> InfState
-info f = nub $ concat $ toProp f
+alt :: Model -> Form -> [InfState]
+alt m f = [x | x <- p, all (\y -> (not (strictSubset x y))) p] where
+          p = toProp m f
+
+info :: Model -> Form -> InfState
+info m f = nub $ concat $ toProp m f
 
 
 \end{code}
