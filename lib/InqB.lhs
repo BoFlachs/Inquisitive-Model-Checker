@@ -19,6 +19,24 @@ data Model = Mo { universe :: Universe
                 , unRel :: [UnRelation]
                 , biRel :: [BiRelation] 
                 , tertRel :: [TertRelation] }
+                deriving (Eq, Ord, Show)
+
+myR :: UnRelation
+myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
+
+myModel :: Model
+myModel = Mo
+    -- Universe 
+    [1, 2,
+     3, 4]
+    -- Domain 
+    ["a", "b"]
+    -- Unary relations
+    [myR]
+    -- BiRelation
+    []
+    -- TertRelation
+    []
 
 -- Type declarations for Proposotions
 type Prop     = [[World]]
@@ -38,20 +56,21 @@ data Form = UnR UnRelation Individual
 --        | Forall Var Form | Exists Var Form
           deriving (Eq, Ord, Show)
 
--- Functions working on formulas and propositions
+-- Functions working on formulas
 nonInq :: Form -> Form
 nonInq = undefined
 
 nonInf :: Form -> Form
 nonInf = undefined
 
+-- Functions working on models, formulas and propositions
 toProp :: Form -> Prop
 toProp = undefined
 
 absPseudComp :: Prop -> Prop
 absPseudComp = undefined
 
-relPseudComp :: Prop -> Prop
+relPseudComp :: Prop -> Prop -> Prop
 relPseudComp = undefined
 
 alt :: Form -> [InfState]
