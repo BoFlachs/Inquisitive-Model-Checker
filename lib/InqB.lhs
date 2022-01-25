@@ -24,23 +24,6 @@ data Model = Mo { universe :: Universe
                 , tertRel :: [TertRelation] }
                 deriving (Eq, Ord, Show)
 
-myR :: UnRelation
-myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
-
-myModel :: Model
-myModel = Mo
-    -- Universe 
-    [1, 2,
-     3, 4]
-    -- Domain 
-    ["a", "b"]
-    -- Unary relations
-    [myR]
-    -- BiRelation
-    []
-    -- TertRelation
-    []
-
 -- Type declarations for Propositions
 type Prop     = [[World]]
 type InfState = [World]
@@ -105,12 +88,5 @@ alt m f = [x | x <- p, not (any (strictSubset x) p)]
 
 info :: Model -> Form -> InfState
 info m f = nub . concat $ toProp m f
-
--- Functions that should be moved to Main.lhs
-makesPropTrue :: InfState -> Prop -> Bool
-makesPropTrue i p = i `elem` p 
-
-makesFormTrue :: Model -> InfState -> Form -> Bool
-makesFormTrue m i f = i `elem` toProp m f
 
 \end{code}
