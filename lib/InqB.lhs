@@ -5,6 +5,8 @@ In this section we discuss the implementation of InqB in Haskell.
 \begin{code}
 module InqB where
 
+import Data.List
+
 -- Type declarations of the models
 type World        = Int 
 type Universe     = [World]
@@ -38,7 +40,7 @@ myModel = Mo
     -- TertRelation
     []
 
--- Type declarations for Proposotions
+-- Type declarations for Propositions
 type Prop     = [[World]]
 type InfState = [World]
 
@@ -57,6 +59,10 @@ data Form = UnR UnRelation Individual
           deriving (Eq, Ord, Show)
 
 -- Functions working on formulas
+powerset :: [a] -> [[a]]
+powerset []  = [[]]
+powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
+
 nonInq :: Form -> Form
 nonInq = undefined
 
@@ -70,8 +76,20 @@ toProp = undefined
 absPseudComp :: Prop -> Prop
 absPseudComp = undefined
 
-relPseudComp :: Prop -> Prop -> Prop
-relPseudComp = undefined
+closeDownward :: [[World]] -> Prop
+closeDownward = nub . concat . map powerset 
+
+myProp1 :: Prop
+myProp1 = closeDownward [[1,2]]
+
+myProp2 :: Prop
+myProp2 = closeDownward [[1,3]]
+
+relPseudComp :: Model -> Prop -> Prop -> Prop
+relPseudComp m p q = filter (\s -> 
+                          all (\x -> x `notElem` p || x `elem` q) 
+                              $ powerset s ) 
+                                  $ powerset $ universe m
 
 alt :: Form -> [InfState]
 alt = undefined
