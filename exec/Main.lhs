@@ -12,12 +12,33 @@ import Examples
 main :: IO()
 main = do putStrLn "Hello!"
 
--- Functions that should be moved to Main.lhs
-makesPropTrue :: InfState -> Prop -> Bool
-makesPropTrue i p = i `elem` p 
+-- Model checker
+supportsProp :: InfState -> Prop -> Bool
+supportsProp s p = s `elem` p 
 
-makesFormTrue :: Model -> InfState -> Form -> Bool
-makesFormTrue m i f = i `elem` toProp m f
+supportsForm :: Model -> InfState -> Form -> Bool
+supportsForm m s f = supportsProp s $ toProp m f
+
+testExample :: Bool 
+testExample = supportsForm myModel [1,2] (UnR myR "a")
+
+isInqusitive :: Model -> Form -> Bool 
+isInqusitive = undefined
+
+isInformative :: Model -> Form -> Bool 
+isInformative = undefined
+
+isTautology :: Model -> Form -> Bool 
+isTautology m f = (powerset . universe) m == toProp m f  
+
+entails :: Model -> Form -> Form -> Bool
+entails = undefined
+
+isEquivalent :: Model -> Form -> Form -> Bool 
+isEquivalent m f g = toProp m f == toProp m g
+
+makesTrue :: Model -> World -> Form -> Bool 
+makesTrue = undefined 
 
 \end{code}
 
