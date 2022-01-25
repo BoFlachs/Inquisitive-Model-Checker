@@ -3,6 +3,7 @@
 In this section we discuss the implementation of InqB in Haskell.
 
 \begin{code}
+
 module InqB where
 
 import Data.List
@@ -64,7 +65,7 @@ powerset []  = [[]]
 powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
 
 nonInq :: Form -> Form
-nonInq f = Neg $ Neg f
+nonInq = Neg . Neg
 
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
@@ -76,7 +77,7 @@ absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
 closeDownward :: [[World]] -> Prop
-closeDownward = nub . concat . map powerset 
+closeDownward = nub . concatMap powerset 
 
 myProp1 :: Prop
 myProp1 = closeDownward [[1,2]]
@@ -85,22 +86,18 @@ myProp2 :: Prop
 myProp2 = closeDownward [[1,3]]
 
 relPseudComp :: Model -> Prop -> Prop -> Prop
-relPseudComp m p q = filter (\s -> 
-                          all (\x -> x `notElem` p || x `elem` q) 
-                              $ powerset s ) 
+relPseudComp m p q = filter (all (\t -> t `notElem` p || t `elem` q) . powerset ) 
                                   $ powerset $ universe m
 
 strictSubset :: InfState -> InfState -> Bool
-strictSubset x y | x \\ y == [] = True
-                 | otherwise = False
+strictSubset x y | null (x \\ y) && x /= y = True
+                 | otherwise              = False
 
 alt :: Model -> Form -> [InfState]
-alt m f = [x | x <- p, all (\y -> (not (strictSubset x y))) p] where
-          p = toProp m f
+alt m f = [x | x <- p, not (any (strictSubset x) p)] 
+      where p = toProp m f
 
 info :: Model -> Form -> InfState
-info m f = nub $ concat $ toProp m f
-
+info m f = nub . concat $ toProp m f
 
 \end{code}
-
