@@ -21,8 +21,26 @@ data Model = Mo { universe :: Universe
                 , unRel :: [UnRelation]
                 , biRel :: [BiRelation] 
                 , tertRel :: [TertRelation] }
+                deriving (Eq, Ord, Show)
 
--- Type declarations for Proposotions
+myR :: UnRelation
+myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
+
+myModel :: Model
+myModel = Mo
+    -- Universe 
+    [1, 2,
+     3, 4]
+    -- Domain 
+    ["a", "b"]
+    -- Unary relations
+    [myR]
+    -- BiRelation
+    []
+    -- TertRelation
+    []
+
+-- Type declarations for Propositions
 type Prop     = [[World]]
 type InfState = [World]
 
@@ -32,15 +50,15 @@ type Vars = [Var]
 -}
 
 -- Type declarations for formulas
-data Form = UnR Individual 
-          | BinR Individual Individual 
-          | TertR Individual Individual Individual
+data Form = UnR UnRelation Individual 
+          | BinR BiRelation Individual Individual 
+          | TertR TertRelation Individual Individual Individual
           | Neg Form | Con Form Form | Dis Form Form
           | Impl Form Form 
 --        | Forall Var Form | Exists Var Form
           deriving (Eq, Ord, Show)
 
--- Functions working on formulas and propositions
+-- Functions working on formulas
 powerset :: [a] -> [[a]]
 powerset []  = [[]]
 powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
@@ -59,6 +77,21 @@ absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
 relPseudComp :: Model -> Prop -> Prop -> Prop
 relPseudComp =  undefined  
+
+closeDownward :: [[World]] -> Prop
+closeDownward = nub . concat . map powerset 
+
+myProp1 :: Prop
+myProp1 = closeDownward [[1,2]]
+
+myProp2 :: Prop
+myProp2 = closeDownward [[1,3]]
+
+relPseudComp :: Model -> Prop -> Prop -> Prop
+relPseudComp m p q = filter (\s -> 
+                          all (\x -> x `notElem` p || x `elem` q) 
+                              $ powerset s ) 
+                                  $ powerset $ universe m
 
 strictSubset :: InfState -> InfState -> Bool
 strictSubset x y | x \\ y == [] = True
