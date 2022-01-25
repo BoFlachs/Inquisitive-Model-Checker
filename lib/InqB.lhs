@@ -75,9 +75,6 @@ toProp = undefined
 absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
-relPseudComp :: Model -> Prop -> Prop -> Prop
-relPseudComp =  undefined  
-
 closeDownward :: [[World]] -> Prop
 closeDownward = nub . concat . map powerset 
 
