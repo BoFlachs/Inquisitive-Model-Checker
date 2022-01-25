@@ -19,8 +19,5 @@ makesPropTrue i p = i `elem` p
 makesFormTrue :: Model -> InfState -> Form -> Bool
 makesFormTrue m i f = i `elem` toProp m f
 
-test :: UnRelation  
-test = myR
-
 \end{code}
 
