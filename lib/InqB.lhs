@@ -70,15 +70,6 @@ nonInq = Neg . Neg
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
 
-toProp :: Model -> Form -> Prop
-toProp m (UnR r i) = closeDownward [[x |(x, y) <- r, i `elem` y]]
-toProp m (BinR r i1 i2) = closeDownward [[x |(x, y) <- r, (i1,i2) `elem` y]]
-toProp m (TertR r i1 i2 i3) = closeDownward [[x | (x, y) <- r, (i1,i2,i3) `elem` y]]
-toProp m (Neg f) = absPseudComp m (toProp m f)
-toProp m (Con f1 f2) = toProp m f1 `intersect` toProp m f2
-toProp m (Dis f1 f2) = toProp m f1 `union` toProp m f2
-toProp m (Impl f1 f2) = relPseudComp m (toProp m f1) (toProp m f2)
-
 absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
@@ -95,6 +86,15 @@ relPseudComp :: Model -> Prop -> Prop -> Prop
 relPseudComp m p q = filter (all (\t -> t `notElem` p || t `elem` q) . powerset )
                                   $ powerset $ universe m
 
+toProp :: Model -> Form -> Prop
+toProp _ (UnR r i)          = closeDownward [[x |(x, y) <- r, i `elem` y]]
+toProp _ (BinR r i1 i2)     = closeDownward [[x |(x, y) <- r, (i1,i2) `elem` y]]
+toProp _ (TertR r i1 i2 i3) = closeDownward [[x |(x, y) <- r, (i1,i2,i3) `elem` y]]
+toProp m (Neg f)            = absPseudComp m (toProp m f)
+toProp m (Con f1 f2)        = toProp m f1 `intersect` toProp m f2
+toProp m (Dis f1 f2)        = toProp m f1 `union` toProp m f2
+toProp m (Impl f1 f2)       = relPseudComp m (toProp m f1) (toProp m f2)
+
 strictSubset :: InfState -> InfState -> Bool
 strictSubset x y | null (x \\ y) && x /= y = True
                  | otherwise              = False
@@ -105,8 +105,5 @@ alt m f = [x | x <- p, not (any (strictSubset x) p)]
 
 info :: Model -> Form -> InfState
 info m f = nub . concat $ toProp m f
-
-func :: Int -> Int
-func n = (*5) n
 
 \end{code}
