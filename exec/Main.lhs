@@ -22,8 +22,8 @@ supportsForm m s f = supportsProp s $ toProp m f
 testExample :: Bool 
 testExample = supportsForm myModel [1,2] (UnR myR "a")
 
-isInqusitive :: Model -> Form -> Bool 
-isInqusitive = undefined
+isInquisitive :: Model -> Form -> Bool 
+isInquisitive = undefined
 
 isInformative :: Model -> Form -> Bool 
 isInformative = undefined
