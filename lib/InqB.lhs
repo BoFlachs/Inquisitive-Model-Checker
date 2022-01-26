@@ -74,28 +74,18 @@ relPseudComp m p q = filter (all (\t -> t `notElem` p || t `elem` q) . powerset 
 
 substitute :: Individual -> Var -> Form -> Form
 substitute d x (UnR r i)          
-                      | Var x == i = UnR r (Indv d)
-                      | otherwise  = UnR r i
-substitute d x (BinR r i1 i2)     
-                      | Var x == i1 && Var x == i2 = BinR r (Indv d) (Indv d)
-                      | Var x == i1 && Var x /= i2 = BinR r (Indv d) i2
-                      | Var x /= i1 && Var x == i2 = BinR r i1 (Indv d)
-                      | otherwise                  = BinR r i1 i2
-substitute d x (TertR r i1 i2 i3)
-                      | Var x == i1 && Var x == i2 && Var x == i3 = TertR r (Indv d) (Indv d) (Indv d)
-                      | Var x /= i1 && Var x == i2 && Var x == i3 = TertR r i1 (Indv d) (Indv d)
-                      | Var x == i1 && Var x /= i2 && Var x == i3 = TertR r (Indv d) i2 (Indv d)
-                      | Var x == i1 && Var x == i2 && Var x /= i3 = TertR r (Indv d) (Indv d) i3
-                      | Var x /= i1 && Var x /= i2 && Var x == i3 = TertR r i1 i2 (Indv d)
-                      | Var x /= i1 && Var x == i2 && Var x /= i3 = TertR r i1 (Indv d) i3
-                      | Var x == i1 && Var x /= i2 && Var x /= i3 = TertR r (Indv d) i2 i3
-                      | otherwise                                 = TertR r i1 i2 i3
-substitute d x (Neg f)            = Neg $ substitute d x f
-substitute d x (Con f1 f2)        = Con (substitute d x f1) (substitute d x f2)  
-substitute d x (Dis f1 f2)        = Dis (substitute d x f1) (substitute d x f2) 
-substitute d x (Impl f1 f2)       = Impl (substitute d x f1) (substitute d x f2) 
-substitute d x (Forall y f)       = Forall y $ substitute d x f 
-substitute d x (Exists y f)       = Exists y $ substitute d x f  
+                      | Var x == i  = UnR r (Indv d)
+                      | otherwise   = UnR r i
+substitute d x (BinR r i1 i2)       = BinR r (head varuals) (varuals !! 1)
+                      where varuals = map (\i -> if Var x == i then Indv d else i) [i1, i2]
+substitute d x (TertR r i1 i2 i3)   = TertR r (head varuals) (varuals !! 1) (varuals !! 2)
+                      where varuals = map (\i -> if Var x == i then Indv d else i) [i1, i2, i3]
+substitute d x (Neg f)              = Neg $ substitute d x f
+substitute d x (Con f1 f2)          = Con (substitute d x f1) (substitute d x f2)  
+substitute d x (Dis f1 f2)          = Dis (substitute d x f1) (substitute d x f2) 
+substitute d x (Impl f1 f2)         = Impl (substitute d x f1) (substitute d x f2) 
+substitute d x (Forall y f)         = Forall y $ substitute d x f 
+substitute d x (Exists y f)         = Exists y $ substitute d x f  
 
 -- Helper function
 getString :: Varual -> String 
