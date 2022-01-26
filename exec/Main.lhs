@@ -32,7 +32,9 @@ isTautology :: Model -> Form -> Bool
 isTautology m f = (powerset . universe) m == toProp m f  
 
 entails :: Model -> Form -> Form -> Bool
-entails = undefined
+entails m f1 f2 = all (`elem` p2) p1 where
+             p1 = toProp m f1
+             p2 = toProp m f2
 
 isEquivalent :: Model -> Form -> Form -> Bool 
 isEquivalent m f g = toProp m f == toProp m g
