@@ -14,6 +14,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      Examples
       InqB
   other-modules:
       Paths_imc
