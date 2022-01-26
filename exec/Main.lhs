@@ -40,7 +40,7 @@ isEquivalent :: Model -> Form -> Form -> Bool
 isEquivalent m f g = toProp m f == toProp m g
 
 makesTrue :: Model -> World -> Form -> Bool 
-makesTrue = undefined 
+makesTrue m w f = [w] `elem` toProp m f 
 
 \end{code}
 
