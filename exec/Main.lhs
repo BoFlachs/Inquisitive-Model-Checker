@@ -26,7 +26,7 @@ isInquisitive :: Model -> Form -> Bool
 isInquisitive m f = length (alt m f) /= 1 
 
 isInformative :: Model -> Form -> Bool 
-isInformative = undefined
+isInformative m f = universe m /= info m f 
 
 isTautology :: Model -> Form -> Bool 
 isTautology m f = (powerset . universe) m == toProp m f  
