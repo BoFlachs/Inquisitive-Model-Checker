@@ -23,7 +23,7 @@ testExample :: Bool
 testExample = supportsForm myModel [1,2] (UnR myR "a")
 
 isInquisitive :: Model -> Form -> Bool 
-isInquisitive = undefined
+isInquisitive m f = length (alt m f) /= 1 
 
 isInformative :: Model -> Form -> Bool 
 isInformative = undefined
