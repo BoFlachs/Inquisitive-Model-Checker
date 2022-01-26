@@ -23,7 +23,7 @@ testExample :: Bool
 testExample = supportsForm myModel [1,2] (UnR myR "a")
 
 isInquisitive :: Model -> Form -> Bool 
-isInquisitive m f = length (alt m f) /= 1 
+isInquisitive m f = toProp m f /= powerset (info m f)
 
 isInformative :: Model -> Form -> Bool 
 isInformative m f = universe m /= info m f 
