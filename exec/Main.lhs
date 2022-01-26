@@ -20,7 +20,7 @@ supportsForm :: Model -> InfState -> Form -> Bool
 supportsForm m s f = supportsProp s $ toProp m f
 
 testExample :: Bool 
-testExample = supportsForm myModel [1,2] (UnR myR "a")
+testExample = supportsForm myModel [1,2] (UnR myR (Indv "a"))
 
 isInquisitive :: Model -> Form -> Bool 
 isInquisitive m f = toProp m f /= powerset (info m f)

@@ -11,6 +11,9 @@ import InqB
 myR :: UnRelation
 myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
 
+myVars :: Vars 
+myVars = ["x", "y", "z"]
+
 myModel :: Model
 myModel = Mo
     -- Universe 
