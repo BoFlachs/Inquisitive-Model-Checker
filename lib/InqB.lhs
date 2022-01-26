@@ -18,7 +18,7 @@ type Var          = String
 type Vars         = [Var]
 
 data Varual       = Indv Individual | Var Var 
-  deriving (Eq, Ord, Show)
+        deriving (Eq, Ord, Show)
 
 type Domain       = [Individual]
 type UnRelation   = [(World, [Individual])]
@@ -30,7 +30,7 @@ data Model = Mo { universe :: Universe
                 , unRel :: [UnRelation]
                 , biRel :: [BiRelation]
                 , tertRel :: [TertRelation] }
-                deriving (Eq, Ord, Show)
+        deriving (Eq, Ord, Show)
 
 -- Type declarations for Propositions
 type Prop     = [[World]]
@@ -110,10 +110,10 @@ strictSubset x y | null (x \\ y) && x /= y = True
                  | otherwise              = False
 
 alt :: Model -> Form -> [InfState]
-alt m f = [x | x <- p, not (any (strictSubset x) p)]
+alt m f = sort [x | x <- p, not (any (strictSubset x) p)]
       where p = toProp m f
 
 info :: Model -> Form -> InfState
-info m f = nub . concat $ toProp m f
+info m f = sort . nub . concat $ toProp m f
 
 \end{code}

@@ -8,6 +8,7 @@ module Main where
 
 import InqB
 import Examples
+import Data.List
 
 main :: IO()
 main = do putStrLn "Hello!"
@@ -23,13 +24,13 @@ testExample :: Bool
 testExample = supportsForm myModel [1,2] (UnR myR (Indv "a"))
 
 isInquisitive :: Model -> Form -> Bool 
-isInquisitive m f = toProp m f /= powerset (info m f)
+isInquisitive m f = sort (toProp m f) /= (sort . powerset) (info m f)
 
 isInformative :: Model -> Form -> Bool 
-isInformative m f = universe m /= info m f 
+isInformative m f = (sort . universe) m /= sort (info m f) 
 
 isTautology :: Model -> Form -> Bool 
-isTautology m f = (powerset . universe) m == toProp m f  
+isTautology m f = (sort. powerset . universe) m == sort (toProp m f)  
 
 entails :: Model -> Form -> Form -> Bool
 entails m f1 f2 = all (`elem` p2) p1 where
