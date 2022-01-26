@@ -62,7 +62,7 @@ form11 :: Form
 form11 = Con (UnR myR (Indv "a")) (UnR myR (Indv "b"))
 
 form12 :: Form
-form12 = Dis (nonInf (UnR myR (Indv "a"))) (nonInf (UnR myR (Indv "b")))
+form12 = Con (nonInf (UnR myR (Indv "a"))) (nonInf (UnR myR (Indv "b")))
 
 form13 :: Form
 form13 = Impl (UnR myR (Indv "a")) (UnR myR (Indv "b"))
