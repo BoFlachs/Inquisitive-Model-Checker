@@ -1,6 +1,6 @@
 
 \section{Model Checker}
-\label{sec: Placeholder}
+\label{sec: Model Checker}
 In this section we discuss the model checker
 
 \begin{code}

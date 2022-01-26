@@ -1,5 +1,5 @@
 \section{Example models}
-\label{sec: Placeholder}
+\label{sec: Examples} 
 In this section we create example models
 
 

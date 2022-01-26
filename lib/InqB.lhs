@@ -1,5 +1,5 @@
 
-\section{InqB in Haskell}\label{sec:Placeholder2}
+\section{InqB in Haskell}\label{sec:InqB in Haskell}
 In this section we discuss the implementation of InqB in Haskell.
 
 \begin{code}
