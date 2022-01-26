@@ -73,4 +73,7 @@ form14 = Impl (UnR myR (Indv "a")) (nonInf (UnR myR (Indv "b")))
 form15 :: Form
 form15 = Forall "x" (nonInf (UnR myR (Var "x")))
 
+form16 :: Form
+form16 = Exists "x" (nonInf (UnR myR (Var "x")))
+
 \end{code}
