@@ -91,9 +91,12 @@ substitute d x (Neg f)              = Neg $ substitute d x f
 substitute d x (Con f1 f2)          = Con (substitute d x f1) (substitute d x f2)  
 substitute d x (Dis f1 f2)          = Dis (substitute d x f1) (substitute d x f2) 
 substitute d x (Impl f1 f2)         = Impl (substitute d x f1) (substitute d x f2) 
--- Add that if x == y then do nothing
-substitute d x (Forall y f)         = Forall y $ substitute d x f 
-substitute d x (Exists y f)         = Exists y $ substitute d x f  
+substitute d x (Forall y f)         
+                    | x == y        = Forall y f
+                    | otherwise     = Forall y $ substitute d x f 
+substitute d x (Exists y f) 
+                    | x == y        = Exists y f
+                    | otherwise     = Exists y $ substitute d x f 
 
 -- Helper function
 getString :: Varual -> String 
