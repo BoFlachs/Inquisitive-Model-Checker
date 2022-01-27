@@ -36,10 +36,10 @@
 
 \begin{slide}{Inquisitive Semantics}
     \begin{itemize}
-        \item Classical formal semantics are quite suitable for analysing declarative sentences.
+        \item Classical formal semantics are suitable for analysing declarative sentences.
         \item However, they are not equipped to analyse questions such as:
         \begin{itemize}
-          \item \textit{``Is the curry boiling?''}
+          \item \textit{``Is the Curry boiling?''}
         \end{itemize}
         \item Inquisitive semantics was developed at the ILLC to overcome these issues.
     \end{itemize}
@@ -80,8 +80,8 @@
 
 \begin{slide}{Information States}
   \begin{itemize}
-    \item Sets of worlds are taken as primitive rather than worlds.
-    \item We call sets of worlds information states.
+    \item The semantics of InqB are given in terms of sets of worlds rather than in worlds.
+    \item We call these sets of worlds information states.
   \end{itemize}
   \begin{code}
     type InfState = [World]
@@ -91,7 +91,7 @@
 \begin{slide}{Propositions}
   \begin{itemize}
     \item Propositions are non-empty, downward-closed sets of sets of worlds
-    \item Intuition: A proposition consists of the information states that resolve the question.
+    \item Intuition: A proposition consists of the information states that resolve the issues raised by that proposition.
     \item We represent a propositions by its maximal elements, called alternatives.
     \item A proposition has informative content and inquisitive content
   \end{itemize}
@@ -127,7 +127,6 @@
   \end{itemize}
   \begin{code}
     type Var          = String
-    type Vars         = [Var]
 
     data Term       = Indv Individual | Var Var 
             deriving (Eq, Ord, Show)
@@ -145,6 +144,7 @@
 \begin{slide}{Special Operators}
   \begin{itemize}
     \item Furthermore, there are two special operators: ! and ?.
+    \item The operators ! and ? make a formula non-inquisitive and non-informative, respectively.
     \item As they are abbreviations, we implemented them as functions:
   \end{itemize}
   \begin{code}
