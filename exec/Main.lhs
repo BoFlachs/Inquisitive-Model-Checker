@@ -38,7 +38,7 @@ entails m f1 f2 = all (`elem` p2) p1 where
              p2 = toProp m f2
 
 isEquivalent :: Model -> Form -> Form -> Bool 
-isEquivalent m f g = toProp m f == toProp m g
+isEquivalent m f g = sort (toProp m f) == sort (toProp m g)
 
 makesTrue :: Model -> World -> Form -> Bool 
 makesTrue m w f = [w] `elem` toProp m f 
