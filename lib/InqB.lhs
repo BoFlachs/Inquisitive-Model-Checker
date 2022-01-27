@@ -13,14 +13,6 @@ type World        = Int
 type Universe     = [World]
 type Individual   = String
 
--- Type declarations for variables
-type Var          = String
-type Vars         = [Var]
-
--- Call this terms
-data Varual       = Indv Individual | Var Var 
-        deriving (Eq, Ord, Show)
-
 type Domain       = [Individual]
 type UnRelation   = [(World, [Individual])]
 type BiRelation   = [(World, [(Individual, Individual)])]
@@ -40,10 +32,18 @@ type InfState = [World]
 
 ---------
 
+-- Type declarations for variables
+type Var          = String
+type Vars         = [Var]
+
+-- Call this terms
+data Term       = Indv Individual | Var Var 
+        deriving (Eq, Ord, Show)
+
 -- Type declarations for formulas
-data Form = UnR UnRelation Varual
-          | BinR BiRelation Varual Varual
-          | TertR TertRelation Varual Varual Varual
+data Form = UnR UnRelation Term
+          | BinR BiRelation Term Term
+          | TertR TertRelation Term Term Term
           | Neg Form | Con Form Form | Dis Form Form
           | Impl Form Form
           | Forall Var Form | Exists Var Form
@@ -83,10 +83,10 @@ substitute :: Individual -> Var -> Form -> Form
 substitute d x (UnR r i)          
                       | Var x == i  = UnR r (Indv d)
                       | otherwise   = UnR r i
-substitute d x (BinR r i1 i2)       = BinR r (head varuals) (varuals !! 1)
-                      where varuals = map (\i -> if Var x == i then Indv d else i) [i1, i2]
-substitute d x (TertR r i1 i2 i3)   = TertR r (head varuals) (varuals !! 1) (varuals !! 2)
-                      where varuals = map (\i -> if Var x == i then Indv d else i) [i1, i2, i3]
+substitute d x (BinR r i1 i2)       = BinR r (head terms) (terms !! 1)
+                      where terms = map (\i -> if Var x == i then Indv d else i) [i1, i2]
+substitute d x (TertR r i1 i2 i3)   = TertR r (head terms) (terms !! 1) (terms !! 2)
+                      where terms = map (\i -> if Var x == i then Indv d else i) [i1, i2, i3]
 substitute d x (Neg f)              = Neg $ substitute d x f
 substitute d x (Con f1 f2)          = Con (substitute d x f1) (substitute d x f2)  
 substitute d x (Dis f1 f2)          = Dis (substitute d x f1) (substitute d x f2) 
@@ -99,7 +99,7 @@ substitute d x (Exists y f)
                     | otherwise     = Exists y $ substitute d x f 
 
 -- Helper function
-getString :: Varual -> String 
+getString :: Term -> String 
 getString (Indv i) = i
 getString (Var v)  = v
 
