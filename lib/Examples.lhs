@@ -27,6 +27,38 @@ myModel = Mo
     []
     -- TertRelation
     []
+myR2 :: UnRelation
+myR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
+
+myBiR :: BiRelation 
+myBiR = [(1,[("a","a"),("b","b")]), 
+        (2,[("a","a"),("b","b")]), 
+        (3,[("c","c"),("b","b")]),
+        (4,[("a","a"),("d","d")])]
+
+myTertR :: TertRelation  
+myTertR = [(1,[("a","a","b"),("b","b","c")]), 
+        (2,[("a","a","d"),("b","b","c")]), 
+        (3,[("c","a","c"),("d","b","b")]),
+        (4,[("b","a","a"),("a","d","d")])]
+
+-- myVars2 :: Vars 
+-- myVars2 = ["x", "y", "z"]
+
+myModel2 :: Model
+myModel2 = Mo
+    -- Universe 
+    [1, 2,
+     3, 4]
+    -- Domain 
+    ["a", "b"]
+    -- Unary relations
+    [myR, myR2]
+    -- BiRelation
+    [myBiR]
+    -- TertRelation
+    [myTertR]
+    
 
 form1 :: Form
 form1 = UnR myR (Indv "a")
@@ -75,5 +107,6 @@ form15 = Forall "x" (nonInf (UnR myR (Var "x")))
 
 form16 :: Form
 form16 = Exists "x" (nonInf (UnR myR (Var "x")))
+
 
 \end{code}

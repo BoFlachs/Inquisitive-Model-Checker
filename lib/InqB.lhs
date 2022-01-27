@@ -17,6 +17,7 @@ type Individual   = String
 type Var          = String
 type Vars         = [Var]
 
+-- Call this terms
 data Varual       = Indv Individual | Var Var 
         deriving (Eq, Ord, Show)
 
@@ -36,6 +37,9 @@ data Model = Mo { universe :: Universe
 type Prop     = [[World]]
 type InfState = [World]
 
+
+---------
+
 -- Type declarations for formulas
 data Form = UnR UnRelation Varual
           | BinR BiRelation Varual Varual
@@ -45,16 +49,19 @@ data Form = UnR UnRelation Varual
           | Forall Var Form | Exists Var Form
           deriving (Eq, Ord, Show)
 
--- Functions working on formulas
-powerset :: [a] -> [[a]]
-powerset []  = [[]]
-powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
 
 nonInq :: Form -> Form
 nonInq = Neg . Neg
 
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
+
+-- Functions working on formulas
+powerset :: [a] -> [[a]]
+powerset []  = [[]]
+powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
+
+----------
 
 absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
@@ -84,6 +91,7 @@ substitute d x (Neg f)              = Neg $ substitute d x f
 substitute d x (Con f1 f2)          = Con (substitute d x f1) (substitute d x f2)  
 substitute d x (Dis f1 f2)          = Dis (substitute d x f1) (substitute d x f2) 
 substitute d x (Impl f1 f2)         = Impl (substitute d x f1) (substitute d x f2) 
+-- Add that if x == y then do nothing
 substitute d x (Forall y f)         = Forall y $ substitute d x f 
 substitute d x (Exists y f)         = Exists y $ substitute d x f  
 
