@@ -1,27 +1,21 @@
-
-\section{Model Checker}
-\label{sec: Model Checker}
-In this section we discuss the model checker
+\section{Simple Tests}
+\label{sec:simpletests}
+In this section we use QuickCheck to test some theorems from los bookos.
 
 \begin{code}
+
 module Main where
 
-import InqB
-import Examples
+import InqBModels
+import InqBSyntax
+import InqBSemantics
+import HelperFunctions
 import Data.List
+-- import Test.QuickCheck
+-- import Examples
 
 main :: IO()
-main = do putStrLn "Hello!"
-
--- Model checker
-supportsProp :: InfState -> Prop -> Bool
-supportsProp s p = s `elem` p 
-
-supportsForm :: Model -> InfState -> Form -> Bool
-supportsForm m s f = supportsProp s $ toProp m f
-
-testExample :: Bool 
-testExample = supportsForm myModel [1,2] (UnR myR (Indv "a"))
+main = do putStrLn "Hello"
 
 isInquisitive :: Model -> Form -> Bool 
 isInquisitive m f = sort (toProp m f) /= (sort . powerset) (info m f)
@@ -40,8 +34,13 @@ entails m f1 f2 = all (`elem` p2) p1 where
 isEquivalent :: Model -> Form -> Form -> Bool 
 isEquivalent m f g = sort (toProp m f) == sort (toProp m g)
 
-makesTrue :: Model -> World -> Form -> Bool 
-makesTrue m w f = [w] `elem` toProp m f 
+trivialTest :: Form -> Bool
+trivialTest _ = True
+
+trivialModelTest :: Model -> Bool 
+trivialModelTest _ = True
+
 
 \end{code}
+
 

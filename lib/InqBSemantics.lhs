@@ -1,79 +1,20 @@
 
-\section{InqB in Haskell}\label{sec:InqB in Haskell}
-In this section we discuss the implementation of InqB in Haskell.
+\subsection{Semantics}\label{sec:semantics}
+In this subsection we discuss the implementation of the semantics in Haskell.
 
 \begin{code}
 
-module InqB where
-
+module InqBSemantics where
+      
 import Data.List
+import InqBModels
+import InqBSyntax
+import HelperFunctions
 
--- Type declarations of the models
-type World        = Int
-type Universe     = [World]
-type Individual   = String
-
-type Domain       = [Individual]
-type UnRelation   = [(World, [Individual])]
-type BiRelation   = [(World, [(Individual, Individual)])]
-type TertRelation = [(World, [(Individual, Individual, Individual)])]
-
-data Model = Mo { universe :: Universe
-                , dom :: Domain
-                , unRel :: [UnRelation]
-                , biRel :: [BiRelation]
-                , tertRel :: [TertRelation] }
-        deriving (Eq, Ord, Show)
-
--- Type declarations for Propositions
-type Prop     = [[World]]
-type InfState = [World]
-
-
----------
-
--- Type declarations for variables
-type Var          = String
-type Vars         = [Var]
-
--- Call this terms
-data Term       = Indv Individual | Var Var 
-        deriving (Eq, Ord, Show)
-
--- Type declarations for formulas
-data Form = UnR UnRelation Term
-          | BinR BiRelation Term Term
-          | TertR TertRelation Term Term Term
-          | Neg Form | Con Form Form | Dis Form Form
-          | Impl Form Form
-          | Forall Var Form | Exists Var Form
-          deriving (Eq, Ord, Show)
-
-
-nonInq :: Form -> Form
-nonInq = Neg . Neg
-
-nonInf :: Form -> Form
-nonInf f = Dis f $ Neg f
-
--- Functions working on formulas
-powerset :: [a] -> [[a]]
-powerset []  = [[]]
-powerset (x:xs) = powerset xs ++ map (x:) (powerset xs)
-
-----------
 
 absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
-closeDownward :: [[World]] -> Prop
-closeDownward = nub . concatMap powerset
-
-myProp1 :: Prop
-myProp1 = closeDownward [[1,2]]
-
-myProp2 :: Prop
-myProp2 = closeDownward [[1,3]]
 
 relPseudComp :: Model -> Prop -> Prop -> Prop
 relPseudComp m p q = filter (all (\t -> t `notElem` p || t `elem` q) . powerset )
@@ -98,10 +39,6 @@ substitute d x (Exists y f)
                     | x == y        = Exists y f
                     | otherwise     = Exists y $ substitute d x f 
 
--- Helper function
-getString :: Term -> String 
-getString (Indv i) = i
-getString (Var v)  = v
 
 toProp :: Model -> Form -> Prop
 toProp _ (UnR r i )         = closeDownward [[x |(x, y) <- r, getString i `elem` y]]
@@ -111,14 +48,9 @@ toProp m (Neg f)            = absPseudComp m (toProp m f)
 toProp m (Con f1 f2)        = toProp m f1 `intersect` toProp m f2
 toProp m (Dis f1 f2)        = toProp m f1 `union` toProp m f2
 toProp m (Impl f1 f2)       = relPseudComp m (toProp m f1) (toProp m f2)
--- Foldl1 has no base case so can only be applied to non-empty lists. We have a theoretical guarantee
--- that this is the case in the following.
 toProp m (Forall x f)       = foldl1 intersect [ p | d <- dom m, let p = toProp m $ substitute d x f ]
 toProp m (Exists x f)       = (nub . concat) [ p | d <- dom m, let p = toProp m $ substitute d x f ]
 
-strictSubset :: InfState -> InfState -> Bool
-strictSubset x y | null (x \\ y) && x /= y = True
-                 | otherwise              = False
 
 alt :: Model -> Form -> [InfState]
 alt m f = sort [x | x <- p, not (any (strictSubset x) p)]
