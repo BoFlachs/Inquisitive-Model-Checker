@@ -35,3 +35,14 @@ report.fdb_latexmk
 report.fls
 report.synctex.gz
 report.pdf
+Presentation/presentation.log
+Presentation/presentation.nav
+Presentation/presentation.out
+Presentation/presentation.pdf
+Presentation/presentation.snm
+Presentation/presentation.toc
+Presentation/presentation.vrb
+Presentation/_minted-presentation/33A277187579EF80891B99F4359BB2E7DCE7AD6C809F3498A5E218A58EF53DD8.pygtex
+Presentation/_minted-presentation/766D0D2D963667225A29CEFB092DF097DCE7AD6C809F3498A5E218A58EF53DD8.pygtex
+Presentation/_minted-presentation/default-pyg-prefix.pygstyle
+Presentation/_minted-presentation/default.pygstyle
