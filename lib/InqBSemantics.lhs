@@ -39,6 +39,9 @@ substitute d x (Exists y f)
                     | x == y        = Exists y f
                     | otherwise     = Exists y $ substitute d x f 
 
+getString :: Term -> String 
+getString (Indv i) = i
+getString (Var v)  = v
 
 toProp :: Model -> Form -> Prop
 toProp _ (UnR r i )         = closeDownward [[x |(x, y) <- r, getString i `elem` y]]

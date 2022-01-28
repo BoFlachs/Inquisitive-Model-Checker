@@ -6,7 +6,8 @@ In this subsection we discuss the implementation of models.
 
 module InqBModels where
 
--- import Test.QuickCheck
+import HelperFunctions
+import Test.QuickCheck
 
 -- Type declarations of the models
 type World        = Int
@@ -29,23 +30,32 @@ data Model = Mo { universe :: Universe
 type Prop     = [[World]]
 type InfState = [World]
 
-{-
+
 myWorlds :: [World]
 myWorlds = [1..4]
 
-myIndiviuals :: [Individual]
-myIndiviuals = ["a","b","c","d"]
+myIndividuals :: [Individual]
+myIndividuals = ["a","b","c","d"]
+
+myR' :: UnRelation
+myR' = [(1,["a","b"]), (2,[""]), (3,["b"]), (4,[])]
 
 instance Arbitrary Model where
-  arbitrary = randomModel where
-    randomModel :: Gen Model
-    randomModel = Mo <$> u <*> d <*> ur <*> br <*> tr 
-      where u = elements $ powerset myWorlds 
-            -- might have a quickcheck functino for this non-empty stuff
-            d = elements $ (filter (not . null) . powerset) myIndiviuals 
-            ur = pure [myR]-- zip <$> d <*> d
-            br = pure [] 
-            tr = pure []
--}
+  arbitrary = do
+    u <- suchThat (sublistOf myWorlds) (not . null) 
+    d <- suchThat (sublistOf myIndividuals) (not . null) 
+    ur <- replicate 1 <$> (zip u <$> suchThat (sublistOf $ powerset d) (\x -> length x == length d))
+    let br = pure []
+    let tr = pure []
+    return (Mo u d ur br tr)
+  -- arbitrary = randomModel where
+    -- randomModel :: Gen Model
+    -- randomModel = Mo <$> u <*> d <*> ur <*> br <*> tr 
+    --   where u = suchThat (sublistOf myWorlds) (not . null) 
+    --         d = suchThat (sublistOf myIndividuals) (not . null) 
+    --         ur = replicate 1 <$> (zip <$> u <*> (repeat <$> d))
+    --         br = pure [] 
+    --         tr = pure []
+
 
 \end{code}
