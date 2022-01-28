@@ -11,13 +11,16 @@ import InqBSyntax
 import InqBSemantics
 import ModelChecker
 import Examples
-import HelperFunctions
+import HelperFunctions ( powerset )
 import Data.List
--- import Test.QuickCheck
--- import Examples
+import Test.QuickCheck
+import Test.Hspec
 
 main :: IO()
-main = do putStrLn "Hello"
+main = hspec $ do
+    describe "Basics" $ do
+        it "Trivial model test" $
+            property trivialModelTest
 
 isInquisitive :: Model -> Form -> Bool 
 isInquisitive m f = sort (toProp m f) /= (sort . powerset) (info m f)
@@ -42,9 +45,11 @@ trivialTest _ = True
 trivialModelTest :: Model -> Bool 
 trivialModelTest _ = True
 
+testProperty :: ModelWithForm -> Bool 
+testProperty (MWF (m, f)) = isEquivalent m (nonInf f) (Dis f $ Neg f)
+
 example :: Bool 
 example = supportsForm myModel [1,2] (UnR myR (Indv "a"))
-
 
 \end{code}
 

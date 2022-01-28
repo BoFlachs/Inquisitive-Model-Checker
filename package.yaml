@@ -16,8 +16,8 @@ library:
   source-dirs: lib
 
 tests:
-  simpletests:
-    main: simpletests.lhs
+  tests:
+    main: tests.lhs
     source-dirs: test
     dependencies:
       - imc

@@ -6,8 +6,9 @@ In this subsection we discuss the implementation of the syntax of InqB in Haskel
 
 module InqBSyntax where
 
+import HelperFunctions
 import InqBModels
--- import Test.QuickCheck
+import Test.QuickCheck
 
 -- Type declarations for variables
 type Var          = String
@@ -33,49 +34,39 @@ nonInq = Neg . Neg
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
 
-{--- Define data ModelWithForm =  MWF (Model, Form)
--- Create arbitrary instance for that
+newtype ModelWithForm = MWF (Model, Form) deriving Show
 
-myR' :: UnRelation
-myR' = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
-
-myModel' :: Model
-myModel' = Mo
-    -- Universe 
-    [1, 2,
-     3, 4]
-    -- Domain 
-    ["a", "b"]
-    -- Unary relations
-    [myR']
-    -- BiRelation
-    []
-    -- TertRelation
-    []
-
-instance Arbitrary Form where
-  arbitrary = sized randomForm where
-    randomForm :: Int -> Gen Form
-    randomForm 0 = UnR <$> elements (unRel myModel') 
-                       <*> elements (map Var (dom myModel'))
-    randomForm n = oneof 
-      [ UnR   <$> elements (unRel myModel') 
-              <*> elements (map Var (dom myModel'))
-      , BinR  <$> elements (biRel myModel') 
-              <*> elements (map Var (dom myModel')) 
-              <*> elements (map Var (dom myModel'))
-      , TertR <$> elements (tertRel myModel') 
-              <*> elements (map Var (dom myModel')) 
-              <*> elements (map Var (dom myModel'))
-              <*> elements (map Var (dom myModel'))
-      , Neg   <$> randomForm (n `div` 2)
-      , Con   <$> randomForm (n `div` 2)
-              <*> randomForm (n `div` 2)
-      , Dis   <$> randomForm (n `div` 2)
-              <*> randomForm (n `div` 2)
-      , Impl  <$> randomForm (n `div` 2)
-              <*> randomForm (n `div` 2) 
-      ]
-      -}
-
+instance Arbitrary ModelWithForm where
+    arbitrary = do
+      u <- suchThat (sublistOf myWorlds) (not . null) 
+      d <- suchThat (sublistOf myIndividuals) (not . null) 
+      ur <- replicate 1 <$> (zip u <$> suchThat (sublistOf $ powerset d) (\x -> length x == length d))
+      let br = pure [(w,[])| w <- u]
+      let tr = pure [(w,[])| w <- u] 
+      let model = Mo u d ur br tr
+      form <- sized (randomForm model) 
+      return (MWF (model, form)) where 
+        randomForm :: Model -> Int -> Gen Form
+        randomForm m 0 = UnR <$> elements (unRel m) 
+                       <*> elements (map Indv (dom m))
+        randomForm m n = oneof 
+            [ UnR   <$> elements (unRel m) 
+                    <*> elements (map Indv (dom m))
+            -- , BinR  <$> elements (biRel m) 
+            --         <*> elements (map Indv (dom m)) 
+            --         <*> elements (map Indv (dom m))
+            -- , TertR <$> elements (tertRel m) 
+            --         <*> elements (map Indv (dom m)) 
+            --         <*> elements (map Indv (dom m))
+            --         <*> elements (map Indv (dom m))
+            , Neg   <$> randomForm m (n `div` 4)
+            , Con   <$> randomForm m (n `div` 4)
+                    <*> randomForm m (n `div` 4)
+            , Dis   <$> randomForm m (n `div` 4)
+                    <*> randomForm m (n `div` 4)
+            , Impl  <$> randomForm m (n `div` 4)
+                    <*> randomForm m (n `div` 4)
+            -- Implement quantifier functions     
+            ]
+      
 \end{code}
