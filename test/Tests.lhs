@@ -9,6 +9,8 @@ module Main where
 import InqBModels
 import InqBSyntax
 import InqBSemantics
+import ModelChecker
+import Examples
 import HelperFunctions
 import Data.List
 -- import Test.QuickCheck
@@ -39,6 +41,9 @@ trivialTest _ = True
 
 trivialModelTest :: Model -> Bool 
 trivialModelTest _ = True
+
+example :: Bool 
+example = supportsForm myModel [1,2] (UnR myR (Indv "a"))
 
 
 \end{code}
