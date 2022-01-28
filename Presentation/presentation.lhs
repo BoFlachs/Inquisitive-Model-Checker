@@ -112,7 +112,7 @@
 
 \begin{slide}{Support of Propositions}
   \begin{itemize}
-    \item We say that an information state supports a propositions if its an element of it.
+    \item We say that an information state supports a propositions if it's an element of it.
     \item In other words, $s$ supports $P$ iff $s \in P$.
   \end{itemize}
   \begin{code}
