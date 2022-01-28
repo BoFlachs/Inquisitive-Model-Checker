@@ -34,7 +34,6 @@ nonInq = Neg . Neg
 nonInf :: Form -> Form
 nonInf f = Dis f $ Neg f
 
-
 newtype ModelWithForm = MWF (Model, Form) deriving Show
 
 instance Arbitrary ModelWithForm where
@@ -53,13 +52,13 @@ instance Arbitrary ModelWithForm where
         randomForm m n = oneof 
             [ UnR   <$> elements (unRel m) 
                     <*> elements (map Indv (dom m))
-            , BinR  <$> elements (biRel m) 
-                    <*> elements (map Indv (dom m)) 
-                    <*> elements (map Indv (dom m))
-            , TertR <$> elements (tertRel m) 
-                    <*> elements (map Indv (dom m)) 
-                    <*> elements (map Indv (dom m))
-                    <*> elements (map Indv (dom m))
+            -- , BinR  <$> elements (biRel m) 
+            --         <*> elements (map Indv (dom m)) 
+            --         <*> elements (map Indv (dom m))
+            -- , TertR <$> elements (tertRel m) 
+            --         <*> elements (map Indv (dom m)) 
+            --         <*> elements (map Indv (dom m))
+            --         <*> elements (map Indv (dom m))
             , Neg   <$> randomForm m (n `div` 4)
             , Con   <$> randomForm m (n `div` 4)
                     <*> randomForm m (n `div` 4)
