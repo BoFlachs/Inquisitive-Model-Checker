@@ -37,9 +37,6 @@ myWorlds = [1..4]
 myIndividuals :: [Individual]
 myIndividuals = ["a","b","c","d"]
 
-myR' :: UnRelation
-myR' = [(1,["a","b"]), (2,[""]), (3,["b"]), (4,[])]
-
 instance Arbitrary Model where
   arbitrary = do
     u <- suchThat (sublistOf myWorlds) (not . null) 
@@ -48,14 +45,7 @@ instance Arbitrary Model where
     let br = pure []
     let tr = pure []
     return (Mo u d ur br tr)
-  -- arbitrary = randomModel where
-    -- randomModel :: Gen Model
-    -- randomModel = Mo <$> u <*> d <*> ur <*> br <*> tr 
-    --   where u = suchThat (sublistOf myWorlds) (not . null) 
-    --         d = suchThat (sublistOf myIndividuals) (not . null) 
-    --         ur = replicate 1 <$> (zip <$> u <*> (repeat <$> d))
-    --         br = pure [] 
-    --         tr = pure []
+
 
 
 \end{code}

@@ -45,9 +45,11 @@ trivialTest _ = True
 trivialModelTest :: Model -> Bool 
 trivialModelTest _ = True
 
+testProperty :: ModelWithForm -> Bool 
+testProperty (MWF (m, f)) = not $ isInformative m (nonInf f)
+
 example :: Bool 
 example = supportsForm myModel [1,2] (UnR myR (Indv "a"))
-
 
 \end{code}
 
