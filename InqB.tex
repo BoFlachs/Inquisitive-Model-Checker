@@ -3,7 +3,7 @@
 Any standard first-order language $\mathcal{L}$, consisting of a set of function symbols $\mathcal{F}_\mathcal{L}$ and a set of relation symbols $\mathcal{R}_\mathcal{L}$, is also a language of \textsf{InqB}. In our model checker we do not concern ourselves with function symbols, therefore we will not mention them in the remainder of this report. As for the constants in a language, we will assume that for each individual in the domain of a model we will have a constant in our language. We define models of \textsf{InqB} below.
 
 % Model
-\begin{defi}
+\begin{defi}\label{def: InqBModel}
 %Let $\mathcal{L}$ be a standard first-order language that consists of a set of relation symbols $\mathcal{R}_\mathcal{L}$ and a set of function symbols $\mathcal{F}_\mathcal{L}$, each with an associated arity $n\geq 0$. We will refer to $0$-place functions as individual constants. 
 An \textsf{InqB} model for a first-order language $\mathcal{L}$ is a triple $M=\langle W,D,I\rangle$, where:
 \begin{itemize}
@@ -21,15 +21,37 @@ An \textsf{InqB} model for a first-order language $\mathcal{L}$ is a triple $M=\
 
 % info states
 % propositions
-Before giving the semantics, we introduce some terminology. Instead of worlds, inquisitive semantics takes sets of worlds as primitive. A set of worlds is called an information state. A proposition, then, consists of a set of sets of worlds instead of a set of worlds as in classical logic.
+Before giving the semantics of \textsf{InqB}, we introduce some terminology. Instead of worlds, inquisitive semantics takes sets of worlds as primitive. A set of worlds is called an information state. A proposition, then, consists of a set of sets of worlds instead of a set of worlds as in classical logic.
 
 \begin{defi}
- Let $M=\langle W,D,I\rangle$ be a model. An information state $s$ is a set of possible worlds $s\subseteq W$. A proposition $P$ is a non-empty, downwards closed set of information states.
+ Let $M=\langle W,D,I\rangle$ be a model. An information state $s$ is a set of possible worlds $s\subseteq W$. A proposition $P$ is a non-empty, downwards closed set of information states. The proposition $P$ corresponding to a formula $\varphi$ (in a certain model) is denoted by $[\varphi]$.
 \end{defi}
 
 The information states in a proposition correspond to the states in which the issue raised by a proposition is resolved. As smaller information states provide \emph{more} information, the requirement that propositions are downwards closed make sense. 
 
-In classical logic, logical operations correspond to certain algebraic operations. This is also the case for inquisitive semantics. We will characterize the semantics of \textsf{InqB}
+In classical logic, logical operations correspond to certain algebraic operations. This is also the case in inquisitive semantics. We will use the algebraic characterization of \textsf{InqB}'s semantics in the implementation of our model checker, hence we also present the semantics in this way here.\footnote{For the semantics of \textsf{InqB} in terms of support conditions, see \cite[p.\ 62-63]{inquisitive19}.} In addition to union and intersection, two more algebraic operations are used: relative and absolute pseudo-complement.
+
+\begin{defi}
+ For propositions $P$ and $Q$, the pseudo-complement of $P$ relative to $Q$, denoted by $P\Rightarrow Q$, is defined as $P\Rightarrow Q:= \{s \mid \text{for every } r\subseteq s\text{, if } t\in P\text{, then } t\in Q\}$. For any proposition $P$, the absolute pseudo-complement $P^*$ of $P$ is defined as $P^*:=\{s\mid s\cap t=\emptyset \text{ for all } t\in P\}$.
+\end{defi}
+
+Using these algebraic operations, we can now give the semantics of \textsf{InqB}.
+
+\begin{defi}
+ The semantics of \textsf{InqB} are given by:
+ \begin{enumerate}\setlength\itemsep{-0.3em}
+     \item $[R(t_1,\dots,t_n)] := \mathcal{P}(|R(t_1,\dots,t_n)|)$;
+     \item $[\neg \varphi]:=[\varphi]^*$;
+     \item $[\varphi\land\psi]:=[\varphi]\cap [\psi]$;
+     \item $[\varphi\lor\psi]:=[\varphi]\cup [\psi]$;
+     \item $[\varphi\rightarrow\psi]:=[\varphi]\Rightarrow [\psi]$;
+     \item $[\forall x . \varphi(x)]:= \cap_{d\in D} [\varphi(d)]$;
+     \item $[\exists x . \varphi(x)]:= \cup_{d\in D} [\varphi(d)]$,
+ \end{enumerate}
+ where $|R(t_1,\dots,t_n)|$ denotes the set of worlds where $R(t_1,\dots,t_n)$ is clasically true.
+\end{defi}
+
+We will use the definition above in our model checker. Howe
 
 
 % Algebraic foundations
