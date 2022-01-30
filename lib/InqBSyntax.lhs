@@ -48,8 +48,8 @@ relation \verb|myR| from Section \ref{sec:Models}. This formula corresponds
 to the \textit{InqB} formula $! (Ra \lor Rb) $.
 
 \begin{code}
-form :: Form
-form = nonInq (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
+myForm :: Form
+myForm = nonInq (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
 \end{code}
 
 \begin{code}
@@ -63,8 +63,8 @@ newtype ModelWithForm = MWF (Model, Form) deriving Show
 
 instance Arbitrary ModelWithForm where
     arbitrary = do
-      u <- suchThat (sublistOf myWorlds) (not . null) 
-      d <- suchThat (sublistOf myIndividuals) (not . null) 
+      u  <- suchThat (sublistOf myWorlds) (not . null) 
+      d  <- suchThat (sublistOf myIndividuals) (not . null) 
       ur <- replicate 1 <$> (zip u <$> 
                   (sublistOf ((concat . replicate (length u) . powerset) d) 
                     >>= shuffle ))
