@@ -8,10 +8,6 @@ module ModelChecker where
 import InqBModels
 import InqBSyntax
 import InqBSemantics
-import Examples
-
-testExample :: Bool 
-testExample = supportsForm myModel [1,2] (UnR myR (Indv "a"))
 
 -- Model checker
 supportsProp :: InfState -> Prop -> Bool
