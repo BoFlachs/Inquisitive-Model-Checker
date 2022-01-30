@@ -41,9 +41,9 @@ instance Arbitrary Model where
   arbitrary = do
     u <- suchThat (sublistOf myWorlds) (not . null) 
     d <- suchThat (sublistOf myIndividuals) (not . null) 
-    ur <- replicate 1 <$> (zip u <$> suchThat (sublistOf $ powerset d) (\x -> length x == length d))
-    let br = pure [(w,[])| w <- u]
-    let tr = pure [(w,[])| w <- u] 
+    ur <- replicate 1 <$> (zip u <$> (sublistOf ((concat . replicate (length u) . powerset) d) >>= shuffle ))
+    let br = [[(w,[])| w <- u]]
+    let tr = [[(w,[])| w <- u]]
     return (Mo u d ur br tr)
 
 

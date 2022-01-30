@@ -33,7 +33,7 @@ library
 
 test-suite tests
   type: exitcode-stdio-1.0
-  main-is: tests.lhs
+  main-is: Tests.lhs
   other-modules:
       Paths_imc
   hs-source-dirs:

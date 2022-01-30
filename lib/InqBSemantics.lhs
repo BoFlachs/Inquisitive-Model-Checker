@@ -15,7 +15,6 @@ import HelperFunctions
 absPseudComp :: Model -> Prop -> Prop
 absPseudComp m p = powerset $ universe m \\ (nub . concat) p
 
-
 relPseudComp :: Model -> Prop -> Prop -> Prop
 relPseudComp m p q = filter (all (\t -> t `notElem` p || t `elem` q) . powerset )
                                   $ powerset $ universe m
@@ -53,7 +52,6 @@ toProp m (Dis f1 f2)        = toProp m f1 `union` toProp m f2
 toProp m (Impl f1 f2)       = relPseudComp m (toProp m f1) (toProp m f2)
 toProp m (Forall x f)       = foldl1 intersect [ p | d <- dom m, let p = toProp m $ substitute d x f ]
 toProp m (Exists x f)       = (nub . concat) [ p | d <- dom m, let p = toProp m $ substitute d x f ]
-
 
 alt :: Model -> Form -> [InfState]
 alt m f = sort [x | x <- p, not (any (strictSubset x) p)]
