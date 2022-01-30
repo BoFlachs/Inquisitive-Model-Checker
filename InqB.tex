@@ -1,1 +1,37 @@
 \section{Inquisitive Semantics}\label{sec: InqB}
+% Language
+Any standard first-order language $\mathcal{L}$, consisting of a set of function symbols $\mathcal{F}_\mathcal{L}$ and a set of relation symbols $\mathcal{R}_\mathcal{L}$, is also a language of \textsf{InqB}. In our model checker we do not concern ourselves with function symbols, therefore we will not mention them in the remainder of this report. As for the constants in a language, we will assume that for each individual in the domain of a model we will have a constant in our language. We define models of \textsf{InqB} below.
+
+% Model
+\begin{defi}
+%Let $\mathcal{L}$ be a standard first-order language that consists of a set of relation symbols $\mathcal{R}_\mathcal{L}$ and a set of function symbols $\mathcal{F}_\mathcal{L}$, each with an associated arity $n\geq 0$. We will refer to $0$-place functions as individual constants. 
+An \textsf{InqB} model for a first-order language $\mathcal{L}$ is a triple $M=\langle W,D,I\rangle$, where:
+\begin{itemize}
+\setlength\itemsep{-0.3em}
+    \item $W$ is a non-empty set of possible worlds;
+    \item $D$ is a non-empty set of individuals;
+    \item $I$ is a map that associates every $w\in W$ with a first order structure $I_w$ such that:
+    \begin{itemize}
+    \setlength\itemsep{-0.3em}
+        \item for every $w\in W$, the domain of $I_w$ is $D$;
+        \item for every $n$-ary relation symbol $R\in \mathcal{R}_{\mathcal{L}}$, $I_w(R)\subseteq D^n$;
+    \end{itemize}
+\end{itemize}
+\end{defi}
+
+% info states
+% propositions
+Before giving the semantics, we introduce some terminology. Instead of worlds, inquisitive semantics takes sets of worlds as primitive. A set of worlds is called an information state. A proposition, then, consists of a set of sets of worlds instead of a set of worlds as in classical logic.
+
+\begin{defi}
+ Let $M=\langle W,D,I\rangle$ be a model. An information state $s$ is a set of possible worlds $s\subseteq W$. A proposition $P$ is a non-empty, downwards closed set of information states.
+\end{defi}
+
+The information states in a proposition correspond to the states in which the issue raised by a proposition is resolved. As smaller information states provide \emph{more} information, the requirement that propositions are downwards closed make sense. 
+
+In classical logic, logical operations correspond to certain algebraic operations. This is also the case for inquisitive semantics. We will characterize the semantics of \textsf{InqB}
+
+
+% Algebraic foundations
+% Semantics
+% projection operators
