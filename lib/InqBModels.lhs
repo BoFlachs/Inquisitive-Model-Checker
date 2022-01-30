@@ -1,12 +1,11 @@
 
 \subsection{Models}\label{sec:Models}
-In this subsection we discuss the implementation of the \textit{InqB} models 
+We now discuss the implementation of the \textit{InqB} models 
 as defined in Definition \ref{def: InqBModel}.
 We make possible worlds of the type \verb|Int| and individuals of the type \verb|String|.
 
 \begin{code}
 module InqBModels where
-import Data.Functor.Contravariant (defaultEquivalence)
 
 type World        = Int
 type Universe     = [World]
@@ -18,7 +17,7 @@ Inquisitive semantics is designed so that relations can be $n$-ary for any $n \i
 However, in natural language we rarely encountered relations of an arity higher than three.
 We have therefore chosen to only implement unary, binary and tertiary relations. For example,
 the unary relation is represented as the characteristic set of a function from worlds to sets of individuals.
-\footnote{Note that we have chosen to represent sets as lists in Haskell.}
+\footnote{Note that we represent sets as lists in Haskell.}
 
 \begin{code}
 type UnRelation   = [(World, [Individual])]
@@ -52,7 +51,7 @@ data Model = Mo { universe :: Universe
 \end{code}
 
 \noindent An example of an \textit{InqB} model in this framework would then be as follows.
-\begin{showCode}
+\begin{code}
 myR :: UnRelation
 myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
 
@@ -60,20 +59,16 @@ myR2 :: UnRelation
 myR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
 
 myBiR :: BiRelation 
-myBiR = [(1,[("a","a"),("b","b")]), 
-        (2,[("a","a")]), 
-        (3,[("c","c"),("b","b")]),
-        (4,[])]
+myBiR = [(1,[("a","a"),("b","b")]), (2,[("a","a")]), 
+        (3,[("c","c"),("b","b")]),(4,[])]
 
 myTertR :: TertRelation  
-myTertR = [(1,[("a","a","b")]), 
-        (2,[("a","a","d"),("b","b","c")]), 
-        (3,[]),
-        (4,[("b","a","a"),("a","d","d")])]
+myTertR = [(1,[("a","a","b")]), (2,[("a","a","d"),("b","b","c")]), 
+        (3,[]), (4,[("b","a","a"),("a","d","d")])]
 
 myModel2 :: Model
 myModel2 = Mo [1, 2, 3, 4] ["a", "b"] [myR, myR2] [myBiR] [myTertR]
-\end{showCode}
+\end{code}
 
 \noindent Lastly, we define information states and propositions as sets of worlds
 and sets of sets of worlds respectively.
