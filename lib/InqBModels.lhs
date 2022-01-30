@@ -1,53 +1,86 @@
 
 \subsection{Models}\label{sec:Models}
-In this subsection we discuss the implementation of models.
+In this subsection we discuss the implementation of the \textit{InqB} models 
+as defined in Definition \ref{def: InqBModels}.
+We make possible worlds of the type \verb|Int| and individuals of the type \verb|String|.
 
 \begin{code}
-
 module InqBModels where
+import Data.Functor.Contravariant (defaultEquivalence)
 
-import HelperFunctions
-import Test.QuickCheck
-
--- Type declarations of the models
 type World        = Int
 type Universe     = [World]
 type Individual   = String
-
 type Domain       = [Individual]
+\end{code}
+
+Inquisitive semantics is designed so that relations can be $n$-ary for any $n \in \mathbb{N}$.
+However, in natural language we rarely encountered relations of an arity higher than three.
+We have therefore chosen to only implement unary, binary and tertiary relations. For example,
+the unary relation is represented as the characteristic set of a function from worlds to sets of individuals.
+\footnote{Note that we have chosen to represent sets as lists in Haskell.}
+
+\begin{code}
 type UnRelation   = [(World, [Individual])]
 type BiRelation   = [(World, [(Individual, Individual)])]
 type TertRelation = [(World, [(Individual, Individual, Individual)])]
+\end{code}
 
+Our models then consists of a universe, a domain, and lists of unary, binary and 
+tertiary relations. Note that we diverge from Definition \ref{def: InqBModels} in this respect.
+We omit the interpretation function $I$ and replace this in two ways. 
+
+First, as the domain should be constant in all worlds, we work with the domain 
+of the model rather than with a domain relative to a world.
+
+Second, we do not work with relation symbols that are interpreted in a model. Instead we
+add the relations directly to the model. As we shall see shortly, this allows for 
+a very straightforward way of defining models. The downside is that we do not have a fixed
+language with relation symbols that are interpreted differently in different models. This
+means that a formula is always defined relative to a model, as we will see in 
+Section \ref{sec:InqBSyntax}. We have chosen to put this restriction on our models so
+that the implementation of arbitrary models can be simpler. And although this might be 
+mathematically less complete, it allows for an intuitive way of defining one's one models.
+
+\begin{code}
 data Model = Mo { universe :: Universe
                 , dom :: Domain
                 , unRel :: [UnRelation]
                 , biRel :: [BiRelation]
                 , tertRel :: [TertRelation] }
         deriving (Eq, Ord, Show)
+\end{code}
 
--- Type declarations for Propositions
+\noindent An example of an \textit{InqB} model in this framework would then be as follows.
+\begin{showCode}
+myR :: UnRelation
+myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
+
+myR2 :: UnRelation
+myR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
+
+myBiR :: BiRelation 
+myBiR = [(1,[("a","a"),("b","b")]), 
+        (2,[("a","a")]), 
+        (3,[("c","c"),("b","b")]),
+        (4,[])]
+
+myTertR :: TertRelation  
+myTertR = [(1,[("a","a","b")]), 
+        (2,[("a","a","d"),("b","b","c")]), 
+        (3,[]),
+        (4,[("b","a","a"),("a","d","d")])]
+
+myModel2 :: Model
+myModel2 = Mo [1, 2, 3, 4] ["a", "b"] [myR, myR2] [myBiR] [myTertR]
+\end{showCode}
+
+\noindent Lastly, we define information states and propositions as sets of worlds
+and sets of sets of worlds respectively.
+\begin{code}
 type Prop     = [[World]]
 type InfState = [World]
-
-
-myWorlds :: [World]
-myWorlds = [1..4]
-
-myIndividuals :: [Individual]
-myIndividuals = ["a","b","c","d"]
-
-instance Arbitrary Model where
-  arbitrary = do
-    u <- suchThat (sublistOf myWorlds) (not . null) 
-    d <- suchThat (sublistOf myIndividuals) (not . null) 
-    ur <- replicate 1 <$> (zip u <$> (sublistOf ((concat . replicate (length u) . powerset) d) >>= shuffle ))
-    br <- replicate 1 <$> (zip u <$> sublistOf ((concat . replicate (length u) . powerset) 
-                    [(x,y)| x<-d,y<-d]))
-    tr <- replicate 1 <$> (zip u <$> sublistOf ((concat . replicate (length u) . powerset) 
-            [(x,y,z)| x<-d, y<-d, z<-d]))
-    return (Mo u d ur br tr)
-
-
-
 \end{code}
+
+\noindent Given these implementations of an \textit{InqB} model we can now implement
+the syntax of inquisitive semantics.
