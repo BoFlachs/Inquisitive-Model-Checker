@@ -12,22 +12,9 @@ import InqBSyntax
 myR :: UnRelation
 myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
 
-myVars :: Vars 
-myVars = ["x", "y", "z"]
-
 myModel :: Model
-myModel = Mo
-    -- Universe 
-    [1, 2,
-     3, 4]
-    -- Domain 
-    ["a", "b"]
-    -- Unary relations
-    [myR]
-    -- BiRelation
-    []
-    -- TertRelation
-    []
+myModel = Mo [1, 2, 3, 4] ["a", "b"] [myR] [] []
+
 myR2 :: UnRelation
 myR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
 

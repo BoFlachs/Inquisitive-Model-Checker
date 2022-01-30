@@ -40,9 +40,11 @@ instance Arbitrary ModelWithForm where
     arbitrary = do
       u <- suchThat (sublistOf myWorlds) (not . null) 
       d <- suchThat (sublistOf myIndividuals) (not . null) 
-      ur <- replicate 1 <$> (zip u <$> (sublistOf ((concat . replicate (length u) . powerset) d) >>= shuffle ))
-      let br = [[(w,[])| w <- u]]
-      let tr = [[(w,[])| w <- u]] 
+      ur <- replicate 1 <$> (zip u <$> (cycle <$> (sublistOf ((concat . replicate (length u) . powerset) d) >>= shuffle )))
+      br <- replicate 1 <$> (zip u <$> (cycle <$> sublistOf ((concat . replicate (length u) . powerset) 
+                  [(x,y)| x<-d,y<-d])))
+      tr <- replicate 1 <$> (zip u <$> (cycle <$> sublistOf ((concat . replicate (length u) . powerset) 
+              [(x,y,z)| x<-d, y<-d, z<-d])))
       let model = Mo u d ur br tr
       form <- sized (randomForm model) 
       return (MWF (model, form)) where 
@@ -52,13 +54,13 @@ instance Arbitrary ModelWithForm where
         randomForm m n = oneof 
             [ UnR   <$> elements (unRel m) 
                     <*> elements (map Indv (dom m))
-            -- , BinR  <$> elements (biRel m) 
-            --         <*> elements (map Indv (dom m)) 
-            --         <*> elements (map Indv (dom m))
-            -- , TertR <$> elements (tertRel m) 
-            --         <*> elements (map Indv (dom m)) 
-            --         <*> elements (map Indv (dom m))
-            --         <*> elements (map Indv (dom m))
+            , BinR  <$> elements (biRel m) 
+                    <*> elements (map Indv (dom m)) 
+                    <*> elements (map Indv (dom m))
+            , TertR <$> elements (tertRel m) 
+                    <*> elements (map Indv (dom m)) 
+                    <*> elements (map Indv (dom m))
+                    <*> elements (map Indv (dom m))
             , Neg   <$> randomForm m (n `div` 4)
             , Con   <$> randomForm m (n `div` 4)
                     <*> randomForm m (n `div` 4)
@@ -66,7 +68,6 @@ instance Arbitrary ModelWithForm where
                     <*> randomForm m (n `div` 4)
             , Impl  <$> randomForm m (n `div` 4)
                     <*> randomForm m (n `div` 4)
-            -- Implement quantifier functions     
             ]
       
 \end{code}
