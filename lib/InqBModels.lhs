@@ -1,7 +1,7 @@
 
 \subsection{Models}\label{sec:Models}
 In this subsection we discuss the implementation of the \textit{InqB} models 
-as defined in Definition \ref{def: InqBModels}.
+as defined in Definition \ref{def: InqBModel}.
 We make possible worlds of the type \verb|Int| and individuals of the type \verb|String|.
 
 \begin{code}
@@ -27,7 +27,7 @@ type TertRelation = [(World, [(Individual, Individual, Individual)])]
 \end{code}
 
 Our models then consists of a universe, a domain, and lists of unary, binary and 
-tertiary relations. Note that we diverge from Definition \ref{def: InqBModels} in this respect.
+tertiary relations. Note that we diverge from Definition \ref{def: InqBModel} in this respect.
 We omit the interpretation function $I$ and replace this in two ways. 
 
 First, as the domain should be constant in all worlds, we work with the domain 
