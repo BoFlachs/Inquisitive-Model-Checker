@@ -67,7 +67,7 @@ myTertR = [(1,[("a","a","b")]), (2,[("a","a","d"),("b","b","c")]),
         (3,[]), (4,[("b","a","a"),("a","d","d")])]
 
 myModel :: Model
-myModel = Mo [1, 2, 3, 4] ["a", "b"] [myR, myR2] [myBiR] [myTertR]
+myModel = Mo [1, 2, 3, 4] ["a", "b"] [myUnR, myUnR2] [myBiR] [myTertR]
 \end{code}
 
 \noindent Lastly, we define information states and propositions as sets of worlds

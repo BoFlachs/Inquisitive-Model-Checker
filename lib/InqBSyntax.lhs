@@ -49,7 +49,7 @@ to the \textit{InqB} formula $?!(Ra \lor Rb)$.
 
 \begin{code}
 myForm :: Form
-myForm = (nonInf . nonInq) (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
+myForm = (nonInf . nonInq) (Dis (UnR myUnR (Indv "a")) (UnR myUnR (Indv "b")))
 \end{code}
 
 Now that we have defined what an \textit{InqB} model and an \textit{InqB}
