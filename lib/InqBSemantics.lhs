@@ -72,6 +72,3 @@ info :: Model -> Form -> InfState
 info m f = sort . nub . concat $ toProp m f
 
 \end{code}
-
-We should not forget to give an example with a nice
-tikz picture here!!!! 

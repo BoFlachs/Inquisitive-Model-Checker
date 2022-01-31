@@ -45,11 +45,11 @@ nonInf f = Dis f $ Neg f
 
 We can then define an example formula using the example 
 relation \verb|myR| from Section \ref{sec:Models}. This formula corresponds
-to the \textit{InqB} formula $! (Ra \lor Rb) $.
+to the \textit{InqB} formula $?!(Ra \lor Rb)$.
 
 \begin{code}
 myForm :: Form
-myForm = nonInq (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
+myForm = (nonInf . nonInq) (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
 \end{code}
 
 Now that we have defined what an \textit{InqB} model and an \textit{InqB}
