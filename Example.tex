@@ -1,1 +1,25 @@
-ldsjlaflsajf
+In Figure \ref{fig:Example Model} we have given a visual representation of an \textit{InqB} model. The grey areas correspond to the two alternatives, i.e., maximal elements, of the proposition corresponding to the formula $?!(Ra \lor Rb)$. Note that this formula is inquisitive as there are more than one alternatives. However, as the alternatives together cover the whole universe, we see that it is not informative.
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[>=latex,scale=.6]
+    
+    % Possibilities    
+    \draw[opaque,rounded corners]     
+    (-1.8,0) -- (-1.8,1.8) -- (1.8, 1.8) -- (1.8,.2)
+    -- (-.2, .2)
+    -- (-.2,-1.8) -- (-1.8,-1.8) -- (-1.8,0);
+    \draw[opaque,rounded corners] (.2,-.2) rectangle (1.7, -1.7);
+    
+    % Indices
+    \draw (-1,1) node[index gray] (yy) {$1$};
+    \draw (1,1) node[index gray] (yn) {$2$};
+    \draw (-1,-1) node[index gray] (ny) {$3$};
+    \draw (1,-1) node[index gray] (nn) {$4$};
+  	
+  	\end{tikzpicture}
+    \caption{The model $M$ with the proposition $[?!(Ra \lor Rb)]$.}
+    \label{fig:Example Model}
+\end{figure}
+
+We have already seen how we can represent this model and this formula in Haskell. 
