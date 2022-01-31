@@ -43,7 +43,7 @@ In classical logic, logical operations correspond to certain algebraic operation
 % Semantics
 Using these algebraic operations, we can now give the semantics of \textsf{InqB}.
 
-\begin{defi}
+\begin{defi}\label{defsemantics}
  The semantics of \textsf{InqB} are given by:
  \begin{enumerate}\setlength\itemsep{-0.3em}
      \item $[R(t_1,\dots,t_n)] := \mathcal{P}(|R(t_1,\dots,t_n)|)$;
@@ -57,5 +57,18 @@ Using these algebraic operations, we can now give the semantics of \textsf{InqB}
  where $|R(t_1,\dots,t_n)|$ denotes the set of worlds where $R(t_1,\dots,t_n)$ is classically true.
 \end{defi}
 % projection operators
-Lastly, we introduce two new projection operators: $!$ and $?$. We call these projection operators because they project a proposition on the set of purely informative propositions and the set of purely inquisitive propositions, respectively.  
+Lastly, we introduce two new projection operators: `$!$' and `$?$'. We call these projection operators because they project a proposition on the set of purely informative propositions and the set of purely inquisitive propositions, respectively.
+
+\begin{defi}\label{defproject}
+ For any proposition $P$, we have:
+ \begin{itemize}
+     \item $!P:= \mathcal{P}(\info(P))$;
+     \item $?P:= P\cup P^*$.
+ \end{itemize}
+\end{defi}
+
+We can express $!P$ in terms of our algebraic operators as $!P=P^{**}$. It then follows from Definition \ref{defsemantics} and Definition \ref{defproject} that we can express the projection operators in terms of negation and disjunction: $!\varphi \equiv \neg\neg\varphi$ and $?\varphi\equiv \varphi \lor \neg \varphi$. So we do not have to add these operators to our language in order to make our language more expressive.
+
+This concludes our introduction to \textsf{InqB}. In the next section we will discuss how we implemented \textsf{InqB} in Haskell. 
+
 
