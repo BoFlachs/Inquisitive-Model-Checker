@@ -52,11 +52,11 @@ data Model = Mo { universe :: Universe
 
 \noindent An example of an \textit{InqB} model in this framework would then be as follows.
 \begin{code}
-myR :: UnRelation
-myR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
+myUnR :: UnRelation
+myUnR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
 
-myR2 :: UnRelation
-myR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
+myUnR2 :: UnRelation
+myUnR2 = [(1,["a","b"]), (2,["a,b"]), (3,[]), (4,[])]
 
 myBiR :: BiRelation 
 myBiR = [(1,[("a","a"),("b","b")]), (2,[("a","a")]), 
@@ -66,8 +66,8 @@ myTertR :: TertRelation
 myTertR = [(1,[("a","a","b")]), (2,[("a","a","d"),("b","b","c")]), 
         (3,[]), (4,[("b","a","a"),("a","d","d")])]
 
-myModel2 :: Model
-myModel2 = Mo [1, 2, 3, 4] ["a", "b"] [myR, myR2] [myBiR] [myTertR]
+myModel :: Model
+myModel = Mo [1, 2, 3, 4] ["a", "b"] [myR, myR2] [myBiR] [myTertR]
 \end{code}
 
 \noindent Lastly, we define information states and propositions as sets of worlds
