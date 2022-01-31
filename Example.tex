@@ -1,4 +1,4 @@
-In Figure \ref{fig:Example Model} we have given a visual representation of an \textit{InqB} model. The grey areas correspond to the two alternatives, i.e., maximal elements, of the proposition corresponding to the formula $?!(Ra \lor Rb)$. Note that this formula is inquisitive as there are more than one alternatives. However, as the alternatives together cover the whole universe, we see that it is not informative.
+In Figure \ref{fig:Example Model} we have given a visual representation of an \textit{InqB} model $M$. The grey areas correspond to the two alternatives, i.e., maximal elements, of the proposition corresponding to the formula $?!(Ra \lor Rb)$. Note that this formula is inquisitive as there are more than one alternatives. However, as the alternatives together cover the whole universe, we see that it is not informative.
 
 \begin{figure}[h]
     \centering
@@ -22,4 +22,11 @@ In Figure \ref{fig:Example Model} we have given a visual representation of an \t
     \label{fig:Example Model}
 \end{figure}
 
-We have already seen how we can represent this model and this formula in Haskell. 
+\noindent In Section \ref{sec:Models} we have seen how we can represent this model in Haskell, i.e. $M$ corresponds to \verb|myModel|. Similarly, we have already seen the implementation of $?!(Ra \lor Rb)$ as \verb|myForm|. Lastly, we can compute the alternatives of the proposition $[?!(Ra \lor Rb)$ in GHCI as follows:
+\begin{showCode}
+*InqBSemantics> alt myModel myForm
+\end{showCode}
+\noindent This will return the following list of lists, which corresponds exactly to the alternatives in the figure.
+\begin{showCode}
+[[1,2,3],[4]]
+\end{showCode}
