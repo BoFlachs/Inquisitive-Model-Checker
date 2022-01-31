@@ -1,5 +1,7 @@
 \section{Inquisitive Semantics}\label{sec: InqB}
 % Language
+Below we will give a brief overview of \textsf{InqB}, taking our cue from \cite{inquisitive19}.\footnote{Basic notions such as propositions, information states and alternatives are treated comprehensively in Chapter 2 of \cite{inquisitive19}, while the language, models and semantics of \textsf{InqB} are treated in Chapter 4 of the same book.}
+
 Any standard first-order language $\mathcal{L}$, containing a set of function symbols $\mathcal{F}_\mathcal{L}$ and a set of relation symbols $\mathcal{R}_\mathcal{L}$, is also a language of \textsf{InqB}. In our model checker we do not concern ourselves with function symbols, therefore we will not mention them in the remainder of this report. As for the constants in a language, we will assume that for each individual in the domain of a model we will have a constant in our language. We define models of \textsf{InqB} below.
 
 % Model
@@ -26,12 +28,22 @@ Before giving the semantics of \textsf{InqB}, we introduce some terminology. Ins
  Let $M=\langle W,D,I\rangle$ be a model. An information state $s$ is a set of possible worlds $s\subseteq W$. A proposition $P$ is a non-empty, downwards closed set of information states. The proposition $P$ corresponding to a formula $\varphi$ (in a certain model) is denoted by $[\varphi]$.
 \end{defi}
 
-The information states in a proposition correspond to the states in which the issue raised by a proposition is resolved. As smaller information states provide \emph{more} information, the requirement that propositions are downwards closed make sense.
-
-Given Definition \ref{defprop}, we can characterize a proposition in terms of its maximal elements. We call these maximal elements the alternatives of a proposition. If a proposition has more than one alternative, we say that this proposition is inquisitive. Moreover, the union of the sets in a proposition can be viewed as the informative content of a proposition. We formally define these two notions, they will play a role in later sections.
+Given Definition \ref{defprop}, we can characterize a proposition in terms of its maximal elements, which we will call alternatives. 
 
 \begin{defi}
- The alternatives of a proposition $P$, denoted by $\alt(P)$, are its maximal elements. The informative content of a proposition $P$, denoted by $\info(P)$, is defined as $\info(P):=\cup P$.
+ The alternatives of a proposition $P$, denoted by $\alt(P)$, are its maximal elements. If $|\alt(P)|\neq 1$, we say that $P$ is inquisitive, otherwise $P$ is non-inquisitive.
+\end{defi}
+
+The issue raised by a proposition, then, can intuitively be understood as the problem of not knowing which of its alternatives is the case. The information states in a proposition correspond to the states in which the issue raised by a proposition is resolved, i.e. the states in which one is able to know for at least one alternative that it is the case. As smaller information states provide \emph{more} information, the requirement that propositions are downwards closed make sense. A proposition $P$ can be retrieved from its alternatives $\alt(P)$ by taking the downwards closure of $\alt(P)$.
+
+If a proposition $P$ has more than one alternative and $P$ is inquisitive, it expresses the question which of its alternatives is the case. If there is only one alternative, then the proposition simply expresses the information contained in that single alternative, hence it makes sense that we call such a proposition non-inquisitive. Note that a proposition cannot have $0$ alternatives by definition.
+
+Moreover, the union of the sets in a proposition can be viewed as the informative content of a proposition. If the informative content of a proposition does not contain all worlds, then we say that the proposition is informative. It provides us with the information that the excluded worlds are not the case. 
+
+We formally define these two notions, they will play a role in later sections.
+
+\begin{defi}
+ The informative content of a proposition $P$, denoted by $\info(P)$, is defined as $\info(P):=\cup P$.
 \end{defi}
 
 % Algebraic foundations
