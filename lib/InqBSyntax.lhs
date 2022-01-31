@@ -52,14 +52,39 @@ myForm :: Form
 myForm = nonInq (Dis (UnR myR (Indv "a")) (UnR myR (Indv "b")))
 \end{code}
 
+Now that we have defined what an \textit{InqB} model and an \textit{InqB}
+formula looks like in Haskell, we can create arbitrary instances of them.
+We do this by creating a new type that is a tuple of a model and a formula.
+Thereby we can create a single instance of the class \verb|Arbitrary|, which
+we can use for the checking of several \textit{InqB} facts. These checks are
+implemented using QuickCheck and are discussed in Section \ref{sec:QuickCheck}.
+
+\begin{code}
+newtype ModelWithForm = MWF (Model, Form) deriving Show
+\end{code}
+
+For an arbitrary \verb|ModelWithForm| we fix a set of world and a set of individuals.
+The model then will contain an arbitrary subset of these. As the \verb|Arbitrary| instance
+is quite long, we will go over the code line by line. 
+
+First we let the universe, \verb|u|, and 
+the domain, \verb|d|, be arbitrary non-empty subsets of \verb|myWorlds| and 
+\verb|myIndividuals|, respectively. We then take an arbitrary and shuffled list of 
+lists of individuals and zip this with the universe. Replicating this gives us something of 
+the type \verb|UnRelation|. We have chosen to only include one relation of each 
+arity in our arbitrary models, but this could be extended to an arbitrary number.
+The code for binary, \verb|ur|, and tertiary, \verb|tr|, relations is analogous.\footnote{Note that these sets are not shuffled. This is because the shuffling of 
+of these larger sets made the code very slow. A possible improvement would be a 
+way of getting arbitrary relations with less overhead.} Putting these all together
+we have an arbitrary model.
+
+
 \begin{code}
 myWorlds :: [World]
 myWorlds = [1..4]
 
 myIndividuals :: [Individual]
 myIndividuals = ["a","b","c","d"]
-
-newtype ModelWithForm = MWF (Model, Form) deriving Show
 
 instance Arbitrary ModelWithForm where
     arbitrary = do
@@ -75,6 +100,15 @@ instance Arbitrary ModelWithForm where
                   sublistOf ((concat . replicate (length u) . powerset) 
                     [(x,y,z)| x<-d, y<-d, z<-d]))
       let model = Mo u d ur br tr
+\end{code}
+Using the function \verb|sized| we can then create formulas of arbitrary length 
+using the individuals and relations that were created for this arbitrary model.
+We have not implemented arbitrary formulas containing quantifiers, as this poses 
+a rather difficult extra challenge. To correctly implement this one could first 
+create a formula, and then substitute some of the individuals for the variable 
+that will be quantified over. However, for our current purposes and time constraints 
+we have chosen to work with these restrictions.  
+\begin{code}
       form <- sized (randomForm model) 
       return (MWF (model, form)) where 
         randomForm :: Model -> Int -> Gen Form
@@ -92,7 +126,7 @@ instance Arbitrary ModelWithForm where
             , Neg   <$> randomForm m (n `div` 4)
             , Con   <$> randomForm m (n `div` 4) <*> randomForm m (n `div` 4)
             , Dis   <$> randomForm m (n `div` 4) <*> randomForm m (n `div` 4)
-            , Impl  <$> randomForm m (n `div` 4) <*> randomForm m (n `div` 4)
-            ]
-      
+            , Impl  <$> randomForm m (n `div` 4) <*> randomForm m (n `div` 4)]
 \end{code}
+Now that we have defined what models and formulas are, we can implement the 
+semantics of \textit{InqB}.

@@ -1,5 +1,5 @@
-\section{Simple Tests}
-\label{sec:simpletests}
+\section{QuickCheck}
+\label{sec:QuickCheck}
 In this section we use QuickCheck to test some theorems from los bookos.
 
 \begin{code}

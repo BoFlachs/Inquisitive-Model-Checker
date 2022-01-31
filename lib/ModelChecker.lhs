@@ -31,7 +31,6 @@ import InqBModels
 import InqBSyntax
 import InqBSemantics
 
--- Model checker
 supportsProp :: InfState -> Prop -> Bool
 supportsProp s p = s `elem` p 
 
