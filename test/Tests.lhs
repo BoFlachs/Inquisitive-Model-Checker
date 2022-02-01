@@ -3,9 +3,8 @@
 Now that we have defined \textsf{InqB} models, formulas, propositions and 
 a model checker, we can use QuickCheck to check several facts about \textsf{InqB}.\footnote{We 
 say facts rather than propositions or theorems, because this 
-is the terminology that is used in the original sources.}
+is the terminology that is used in the original source.}
 These facts are from \cite{inquisitive19}, and we use their numbering. 
-
 We will first list these facts, after which we will discuss the QuickCheck implementation.
 \begin{itemize}
     \setlength\itemsep{ 0em}
@@ -16,16 +15,17 @@ We will first list these facts, after which we will discuss the QuickCheck imple
             \item $? \varphi \equiv \varphi \lor \neg \varphi$
         \end{itemize}
     \item \textbf{Fact 4.13}: $\varphi \equiv (!\varphi \land ?\varphi)$
+    \newpage
     \item \textbf{Fact 4.17}
         \begin{itemize}
         \setlength\itemsep{ 0em}
-            \item \textit{2.}: $\neg\varphi$ is always non-inquisitive.
-            \item \textit{3.}: $!\varphi$ is always non-inquisitive.
+            \item \textit{2}: $\neg\varphi$ is always non-inquisitive.
+            \item \textit{3}: $!\varphi$ is always non-inquisitive.
         \end{itemize}
     \item \textbf{Fact 4.18}
         \begin{itemize}
         \setlength\itemsep{ 0em}
-            \item \textit{1.}: $?\varphi$ is always non-informative.
+            \item \textit{1}: $?\varphi$ is always non-informative.
         \end{itemize}
 \end{itemize}
 
@@ -65,13 +65,13 @@ main = hspec $ do
     it "1. ?phi is always non-informative" $
       property (\(MWF (m, f))-> (not . isInformative m) (nonInf f))
 \end{code}
-For these properties we have used three functions that implement when a formulas are
+For these properties we have used three functions that implement when formulas are
 inquisitive, informative, and equivalent. These correspond to the following three
 definitions:
 \begin{itemize}
   \setlength\itemsep{ 0em}
   \item A formula is informative iff \texttt{info}$(\varphi) \neq W$;
-  \item A formula is inquisitive iff \texttt{info}$\varphi \notin [\varphi]$;
+  \item A formula is inquisitive iff \texttt{info}$(\varphi) \notin [\varphi]$;
   \item $\varphi \equiv \psi$ just in case that $[\varphi] = [\psi]$.
 \end{itemize}
 \begin{code}
