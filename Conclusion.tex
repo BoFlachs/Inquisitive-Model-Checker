@@ -1,15 +1,24 @@
 \section{Conclusion}\label{sec:Conclusion}
-\begin{itemize}
-    \item Samenvatting van wat we gedaan hebben
-    \item Shortcomings:
-        \begin{itemize}
-            \item Geen relatiesymbolen, maar relaties direct.
-            \item Geen implementatie van quantifiers in arbitrary instance
-        \end{itemize}
-    \item Uitbreidingen:
-        \begin{itemize}
-            \item Shortcomings verhelpen
-            \item Uitbreiden naar IEL
-            \item Implementeren voor \textit{InqI}.
-        \end{itemize}
-\end{itemize}
+% \begin{itemize}
+%     \item Samenvatting van wat we gedaan hebben
+%     \item Shortcomings:
+%         \begin{itemize}
+%             \item Geen relatiesymbolen, maar relaties direct.
+%             \item Geen implementatie van quantifiers in arbitrary instance
+%         \end{itemize}
+%     \item Uitbreidingen:
+%         \begin{itemize}
+%             \item Shortcomings verhelpen
+%             \item Uitbreiden naar IEL
+%             \item Implementeren voor \textit{InqI}.
+%         \end{itemize}
+% \end{itemize}
+
+In this report we gave a concise introduction to the most basic framework of inquisitive semantics (\textsf{InqB}). We then implemented the models, syntax and semantics of \textsf{InqB} in Haskell. Thereafter, we combined these to create a model checker. Lastly, we used QuickCheck to check several facts about the framework \textsf{InqB}. Thereby we have created a tool that can be used to evaluate more complex models and formulas, and to check complex facts about \textsf{InqB}.
+
+However, our implementation of \textsf{InqB} has two shortcomings. Firstly, as discussed in Section \ref{sec:Models}, we have omitted an interpretation function. This allowed us to give a simpler, more explicit manner of defining an arbitrary model. However, the downside of this is that formulas do not contain relation symbols but actual relations. Consequently, we can only define a formula relative to a model, making it impossible to evaluate the same formula in several different models.
+
+Secondly, our \verb|Arbitrary| instance does not allow for arbitrary formulas containing quantifiers. This does not make our system less expressive, as quantifiers can be expressed using conjunction and disjunction in finite models. However, it would be an improvement to allow for the more succinct representation of formulas using quantifiers.
+
+Our implementation can be improved by overcoming these two shortcomings. In sections \ref{sec:Models} and \ref{sec:InqBSyntax} we have discussed possible approaches for these improvements. Our model checker could also be extended to implement Inquisitive Epistemic Logic (\textsf{IEL}) which is a proper extension of \textsf{InqB}. Furthermore, an implementation for inquisitive semantics using intuitionistic logic rather than classical logic (\textsf{InqI}), would be an interesting subject for future research.
+
