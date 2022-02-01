@@ -1,7 +1,7 @@
 
 \subsection{Model Checker}\label{sec:Modelchecker}
 Now that we have implemented the models, syntax and 
-semantics of \textsf{InqB}, our model checker can me 
+semantics of \textsf{InqB}, our model checker can be 
 implemented. As a result of our algebraic characterization
 of \textsf{InqB}'s semantics, the support of a proposition
 in an information state comes down to set inclusion.
@@ -36,11 +36,10 @@ Lastly, the function \verb|makesTrue| checks whether a formula
 is satisfied in a certain world of a particular model. This comes 
 down to checking whether the singleton containing that particular 
 world is an element of the proposition corresponding to the 
-specified formula. Note that checking whether a formula is true 
-in some world comes down to checking whether that formula is 
-supported in the information state containing only that world. 
+specified formula. Note that this is just checking whether that formula is 
+supported by the information state containing only that world. 
 
 \begin{code}
 makesTrue :: Model -> World -> Form -> Bool 
-makesTrue m w f = [w] `elem` toProp m f
+makesTrue m w = supportsForm m [w]
 \end{code}

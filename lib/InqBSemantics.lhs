@@ -107,7 +107,7 @@ toProp m (Exists x f)       = (nub . concat)
 \end{code}
 
 There are two additional functions part of our semantics. Firstly, we have 
-the function \verb|alt|, turning a formula into the alternatives of its 
+the function \verb|alt|, turning a formula into the set of alternatives of its 
 corresponding formula, relative to a model. This is done using \verb|toProp| 
 and then taking the maximal elements of the resulting set of information states, 
 in accordance with Definition \ref{defalt}. We sort the resulting set of information 
