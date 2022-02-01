@@ -1,6 +1,9 @@
 
 \subsection{Semantics}\label{sec:semantics}
-We can implement the semantics of \textsf{InqB} using the models and syntax discussed in previous sections. Firstly, we need to implement the algebraic operators that we do not yet have in Haskell: the relative and absolute pseudo-complement. We follow Definition \ref{defpseudo}.
+We can implement the semantics of \textsf{InqB} using the models and syntax 
+discussed in previous sections. Firstly, we need to implement the algebraic 
+operators that we do not yet have in Haskell: the relative and absolute 
+pseudo-complement. We follow Definition \ref{defpseudo}.
 
 \begin{code}
 module InqBSemantics where
@@ -19,7 +22,9 @@ relPseudComp m p q = filter
                          $ powerset $ universe m
 \end{code}
 
-In order to work with quantifiers and variables, we need to be able to substitute elements from our domain. The following function, \verb|substitute|, substitutes an individual in place of a variable in a formula, yielding a new formula.
+In order to work with quantifiers and variables, we need to be able to 
+substitute elements from our domain. The following function, \verb|substitute|, 
+substitutes an individual in place of a variable in a formula, yielding a new formula.
 
 \begin{code}
 substitute :: Individual -> Var -> Form -> Form
@@ -53,7 +58,12 @@ substitute d x (Exists y f)
                     | otherwise   = Exists y $ substitute d x f 
 \end{code}
 
-The next step consists of writing a function that enables us to turn a formula into a proposition relative to some model. We will see that in order to do this we need to be able to convert objects of type \verb|Term| into objects of type \verb|String|. The function \verb|getString| does this. We have chosen to not put this function in the module with helper functions, to avoid cyclic importations. 
+The next step consists of writing a function that enables us to turn a 
+formula into a proposition relative to some model. We will see that in 
+order to do this we need to be able to convert objects of type \verb|Term| 
+into objects of type \verb|String|. The function \verb|getString| does this. 
+We have chosen to not put this function in the module with helper functions, 
+to avoid cyclic importations. 
 
 \begin{code}
 getString :: Term -> String 
@@ -61,7 +71,16 @@ getString (Indv i) = i
 getString (Var v)  = v
 \end{code}
 
-Now, the function \verb|toProp| turns formulas into propositions relative to a model. The function is defined recursively and mirrors Definition \ref{defsemantics}. Observe that the cases for atomic formulas do not use the model. Instead, the relations are used in these clauses, because the required information for constructing a proposition is already present in the relation \verb|r|, which is part of a model. This is a consequence of not using relation symbols in formulas but the relations themselves. This is a shortcoming that we already discussed in Section \ref{sec:models}. The clauses for non-atomic formulas are straightforward implementations of Definition \ref{defsemantics}.
+Now, the function \verb|toProp| turns formulas into propositions relative 
+to a model. The function is defined recursively and mirrors Definition 
+\ref{defsemantics}. Observe that the cases for atomic formulas do not use 
+the model. Instead, the relations are used in these clauses, because the 
+required information for constructing a proposition is already present in 
+the relation \verb|r|, which is part of a model. This is a consequence of 
+not using relation symbols in formulas but the relations themselves. This 
+is a shortcoming that we already discussed in Section \ref{sec:models}. The 
+clauses for non-atomic formulas are straightforward implementations of 
+Definition \ref{defsemantics}.
 
 \begin{code}
 toProp :: Model -> Form -> Prop
@@ -87,7 +106,12 @@ toProp m (Exists x f)       = (nub . concat)
                                         let p = toProp m $ substitute d x f ]
 \end{code}
 
-There are two additional functions part of our semantics. Firstly, we have the function \verb|alt|, turning a formula into the alternatives of its corresponding formula, relative to a model. This is done using \verb|toProp| and then taking the maximal elements of the resulting set of information states, in accordance with Definition \ref{defalt}. We sort the resulting set of information states to avoid having equivalent propositions that are not recognized as such by Haskell.
+There are two additional functions part of our semantics. Firstly, we have 
+the function \verb|alt|, turning a formula into the alternatives of its 
+corresponding formula, relative to a model. This is done using \verb|toProp| 
+and then taking the maximal elements of the resulting set of information states, 
+in accordance with Definition \ref{defalt}. We sort the resulting set of information 
+states to avoid having equivalent propositions that are not recognized as such by Haskell.
 
 \begin{code}
 alt :: Model -> Form -> [InfState]
@@ -95,7 +119,10 @@ alt m f = sort [x | x <- p, not (any (strictSubset x) p)]
           where p = toProp m f
 \end{code}
 
-Secondly, we have the function \verb|info|, giving the informative content of a formula relative to a model. This function takes the union of all information states in a proposition, in accordance with Definition \ref{definfo}. The resulting information state is sorted for the same reason as in the function above.
+Secondly, we have the function \verb|info|, giving the informative content 
+of a formula relative to a model. This function takes the union of all information 
+states in a proposition, in accordance with Definition \ref{definfo}. The resulting 
+information state is sorted for the same reason as in the function above.
 
 \begin{code}
 info :: Model -> Form -> InfState
