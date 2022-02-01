@@ -36,19 +36,21 @@ Given Definition \ref{defprop}, we can characterize a proposition in terms of it
 
 The issue raised by a proposition, then, can intuitively be understood as the problem of not knowing which of its alternatives is the case. The information states in a proposition correspond to the states in which the issue raised by a proposition is resolved, i.e. the states in which one is able to know for at least one alternative that it is the case. As smaller information states provide \emph{more} information, the requirement that propositions are downwards closed make sense. A proposition $P$ can be retrieved from its alternatives $\alt(P)$ by taking the downwards closure of $\alt(P)$.
 
-If a proposition $P$ has more than one alternative and $P$ is inquisitive, it expresses the question which of its alternatives is the case. If there is only one alternative, then the proposition simply expresses the information contained in that single alternative, hence it makes sense that we call such a proposition non-inquisitive. Note that a proposition cannot have $0$ alternatives by definition.
+If a proposition $P$ has more than one alternative, it expresses the question which of its alternatives is the case. If there is only one alternative, then the proposition simply expresses the information contained in that single alternative, hence it makes sense that we call such a proposition non-inquisitive. Note that a proposition cannot have $0$ alternatives by definition.\footnote{For infinite models it is possible to have $0$ alternatives, see footnote 3 of \cite[p.\ 20]{inquisitive19}. However, we are only concerned with finite models in this report.}
 
 Besides being inquisitive or not, propositions can be informative or non-informative. The union of the sets in a proposition can be viewed as the informative content of a proposition. If the informative content of a proposition does not contain all worlds, then we say that the proposition is informative: it provides us with the information that the excluded worlds are not the case. 
 
 \begin{defi}\label{definfo}
- The informative content of a proposition $P$, denoted by $\info(P)$, is defined as $\info(P):=\cup P$. A proposition $P$ is informative if $\info(P)\neq W$ (where $W$ is the set of worlds in a model).
+ The informative content of a proposition $P$ is defined as $\info(P):=\cup P$. A proposition $P$ is informative iff $\info(P)\neq W$ (where $W$ is the set of worlds in a model).
 \end{defi}
 
 % Algebraic foundations
 In classical logic, logical operations correspond to certain algebraic operations. This is also the case in inquisitive semantics. We will use the algebraic characterization of \textsf{InqB}'s semantics in the implementation of our model checker, hence we also present the semantics in this way here.\footnote{For the semantics of \textsf{InqB} in terms of support conditions, see \cite[p.\ 62-63]{inquisitive19}.} In addition to union and intersection, two more algebraic operations are used: relative and absolute pseudo-complement.
 
 \begin{defi}\label{defpseudo}
- For propositions $P$ and $Q$, the pseudo-complement of $P$ relative to $Q$, denoted by $P\Rightarrow Q$, is defined as $P\Rightarrow Q:= \{s \mid \text{for every } r\subseteq s\text{, if } t\in P\text{, then } t\in Q\}$. For any proposition $P$, the absolute pseudo-complement $P^*$ of $P$ is defined as $P^*:=\{s\mid s\cap t=\emptyset \text{ for all } t\in P\}$.
+ For propositions $P$ and $Q$, the pseudo-complement of $P$ relative to $Q$ is defined as $P\Rightarrow Q:= \{s \mid \text{for every } r\subseteq s\text{, if } t\in P\text{, then } t\in Q\}$. 
+
+ For any proposition $P$, the absolute pseudo-complement of $P$ is defined as $P^*:=\{s\mid s\cap t=\emptyset \text{ for all } t\in P\}$.
 \end{defi}
 % Semantics
 Using these algebraic operations, we can now give the semantics of \textsf{InqB}.
@@ -67,7 +69,7 @@ Using these algebraic operations, we can now give the semantics of \textsf{InqB}
  where $|R(t_1,\dots,t_n)|$ denotes the set of worlds where $R(t_1,\dots,t_n)$ is classically true.
 \end{defi}
 
-The definition above gives us a semantics in the sense that every formula $\varphi$ is associated with a proposition $[\varphi]$, and that we can say that $\varphi$ is supported by an information state $s$ whenever $s\in [\varphi]$. If one prefers to speak about satisfaction in worlds, we can say that $\varphi$ is satisfied at a world $w$ if $w\in \info(\varphi)$.
+The definition above gives us a semantics in the sense that every formula $\varphi$ is associated with a proposition $[\varphi]$, and that we can say that $\varphi$ is supported by an information state $s$ whenever $s\in [\varphi]$. If one prefers to speak about satisfaction in worlds, we can say that $\varphi$ is satisfied at a world $w$ if $\{w\}\in [\varphi]$.
 
 % projection operators
 Lastly, we introduce two new projection operators: `$!$' and `$?$'. We call these projection operators because they project a proposition on the set of purely non-inquisitive propositions and the set of purely non-informative propositions, respectively.
@@ -80,7 +82,7 @@ Lastly, we introduce two new projection operators: `$!$' and `$?$'. We call thes
  \end{itemize}
 \end{defi}
 
-We can express $!P$ in terms of our algebraic operators as $!P=P^{**}$. It then follows from Definition \ref{defsemantics} and Definition \ref{defproject} that we can express the projection operators in terms of negation and disjunction: $!\varphi \equiv \neg\neg\varphi$ and $?\varphi\equiv \varphi \lor \neg \varphi$. So we do not have to add these operators to our language in order to make our language more expressive.
+We can express $!P$ in terms of our algebraic operators as $!P=P^{**}$. It then follows from Definition \ref{defsemantics} and Definition \ref{defproject} that we can express the projection operators in terms of negation and disjunction: $!\varphi \equiv \neg\neg\varphi$ and $?\varphi\equiv \varphi \lor \neg \varphi$. So we do not have to add these operators to our language, as they can already be seen as abbreviations.
 
 This concludes our introduction to \textsf{InqB}. In the next section we will discuss how we implemented \textsf{InqB} in Haskell. 
 
