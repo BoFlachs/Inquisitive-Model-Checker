@@ -1,6 +1,6 @@
 
 \subsection{Syntax}\label{sec:InqBSyntax}
-We now discuss the implementation of the syntax of \textit{InqB}.
+We now discuss the implementation of the syntax of \textsf{InqB}.
 We say that a variable is of the type \verb|String|, and a term is 
 either an individual or a variable.
 
@@ -45,18 +45,18 @@ nonInf f = Dis f $ Neg f
 
 We can then define an example formula using the example 
 relation \verb|myR| from Section \ref{sec:Models}. This formula corresponds
-to the \textit{InqB} formula $?!(Ra \lor Rb)$.
+to the \textsf{InqB} formula $?!(Ra \lor Rb)$.
 
 \begin{code}
 myForm :: Form
 myForm = (nonInf . nonInq) (Dis (UnR myUnR (Indv "a")) (UnR myUnR (Indv "b")))
 \end{code}
 
-Now that we have defined what an \textit{InqB} model and an \textit{InqB}
+Now that we have defined what an \textsf{InqB} model and an \textsf{InqB}
 formula looks like in Haskell, we can create arbitrary instances of them.
 We do this by creating a new type that is a tuple of a model and a formula.
 Thereby we can create a single instance of the class \verb|Arbitrary|, which
-we can use for the checking of several \textit{InqB} facts. These checks are
+we can use for the checking of several \textsf{InqB} facts. These checks are
 implemented using QuickCheck and are discussed in Section \ref{sec:QuickCheck}.
 
 \begin{code}
@@ -129,4 +129,4 @@ we have chosen to work with these restrictions.
             , Impl  <$> randomForm m (n `div` 4) <*> randomForm m (n `div` 4)]
 \end{code}
 Now that we have defined what models and formulas are, we can implement the 
-semantics of \textit{InqB}.
+semantics of \textsf{InqB}.

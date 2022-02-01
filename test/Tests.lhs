@@ -1,7 +1,7 @@
 \section{QuickCheck}
 \label{sec:QuickCheck}
-Now that we have defined \textit{InqB} models, formulas, propositions and 
-a model checker, we can use QuickCheck to check several facts about \textit{InqB}.\footnote{We 
+Now that we have defined \textsf{InqB} models, formulas, propositions and 
+a model checker, we can use QuickCheck to check several facts about \textsf{InqB}.\footnote{We 
 say facts rather than propositions or theorems, because this 
 is the terminology that is used in the original sources.}
 These facts are from \cite{inquisitive19}, and we use their numbering. 
@@ -111,6 +111,6 @@ Finished in 0.0088 seconds
 
 imc> Test suite tests passed
 \end{showCode}
-We can therefore conclude that our implementation of \textit{InqB} in Haskell 
+We can therefore conclude that our implementation of \textsf{InqB} in Haskell 
 works correctly. Furthermore, we have implemented a tool that can be used to check more 
-involved facts about the framework \textit{InqB}.
+involved facts about the framework \textsf{InqB}.

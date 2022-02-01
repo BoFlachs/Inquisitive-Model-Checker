@@ -1,6 +1,6 @@
 
 \subsection{Models}\label{sec:Models}
-We now discuss the implementation of the \textit{InqB} models 
+We now discuss the implementation of the \textsf{InqB} models 
 as defined in Definition \ref{def: InqBModel}.
 We make possible worlds of the type \verb|Int| and individuals of the type \verb|String|.
 
@@ -50,7 +50,7 @@ data Model = Mo { universe :: Universe
         deriving (Eq, Ord, Show)
 \end{code}
 
-\noindent An example of an \textit{InqB} model in this framework would then be as follows.
+\noindent An example of an \textsf{InqB} model in this framework would then be as follows.
 \begin{code}
 myUnR :: UnRelation
 myUnR = [(1,["a","b"]), (2,["a"]), (3,["b"]), (4,[])]
@@ -77,5 +77,5 @@ type Prop     = [[World]]
 type InfState = [World]
 \end{code}
 
-\noindent Given these implementations of an \textit{InqB} model we can now implement
+\noindent Given these implementations of an \textsf{InqB} model we can now implement
 the syntax of inquisitive semantics.
