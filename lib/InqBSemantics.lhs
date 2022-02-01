@@ -78,7 +78,7 @@ the model. Instead, the relations are used in these clauses, because the
 required information for constructing a proposition is already present in 
 the relation \verb|r|, which is part of a model. This is a consequence of 
 not using relation symbols in formulas but the relations themselves. This 
-is a shortcoming that we already discussed in Section \ref{sec:models}. The 
+is a shortcoming that we already discussed in Section \ref{sec:Models}. The 
 clauses for non-atomic formulas are straightforward implementations of 
 Definition \ref{defsemantics}.
 
